@@ -1,3 +1,5 @@
+# densityPrifile and submm_luminosity functions were slightly adapted from the code developed in Popping et al., 2019
+
 import os
 import numpy as np
 import scipy
