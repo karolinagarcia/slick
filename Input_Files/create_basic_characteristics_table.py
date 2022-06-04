@@ -42,7 +42,7 @@ def create_basic_table(boxsize,ytfilename,caesarfilename):
         df_aux = pd.DataFrame({'g_Index':gal_index, 'c_Index':clouds_in_this_galaxy, 'c_Mass':Mcloud, 'c_Radius':Rcloud,
                            'c_nDensity':n_density, 'c_Temperature':temp, 'c_Pressure':P, 'c_Metallicity':Metallicity,
                            'g_SFR':sfr_gal, 'g_Redshift':redshift, 'g_Mass_Gas':Mgas_gal, 'g_Mass_H2':MH2_gal, 'g_Radius':R_gal, 'g_Metallicity':Metal_gal})
-        df = df.append(df_aux)
+        df = pd.concat([df, df_aux])
 
     df = df.reset_index(drop=True)
     df['g_Index'] = df['g_Index'].astype('int')
