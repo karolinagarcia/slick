@@ -1,38 +1,33 @@
 # densityPrifile and submm_luminosity functions were slightly adapted from the code developed in Popping et al., 2019
 
-import os
+# import os
 import numpy as np
-import scipy
-import matplotlib.pyplot as plt
+# import scipy
+# import matplotlib.pyplot as plt
 from datetime import datetime
-from datetime import timedelta
-import caesar
-import yt
+# from datetime import timedelta
+# import caesar
+# import yt
 import pandas as pd
 import seaborn as sns
-import sys
-from despotic import cloud,zonedcloud
+# import sys
+# from despotic import cloud
+from despotic import zonedcloud
 from despotic.chemistry import NL99_GC
 from astropy import units as u
 from astropy import constants as constants
-from astropy.cosmology import WMAP9 as cosmo
-from scipy.integrate import quad
-import argparse
+# from astropy.cosmology import WMAP9 as cosmo
+# from scipy.integrate import quad
+# import argparse
 sns.set_theme()
-import scipy.constants as physcons
-import yt.units as u
-import random
+# import scipy.constants as physcons
+# import yt.units as u
+# import random
 
 DMR = 1.# Dust-to-metal ratio
 mu_atom = 2.33 #atomic weight
 
 def densityProfile(mass,size,NZONES = 25, ProfileType = 'Plummer'):
-    
-    from astropy import units as u
-    
-    #idk why I have to import this inside of the function, but this is the only way it's working
-    #from astropy import units as u
-    
     Radii = np.linspace(0*u.pc,size,NZONES+1)
     radii = (Radii[1:]+ Radii[:-1])/2
     dR = np.abs(Radii[1:] - Radii[:-1])
@@ -60,9 +55,6 @@ def densityProfile(mass,size,NZONES = 25, ProfileType = 'Plummer'):
     return density, dR.to(u.cm)
 
 def submm_luminosity(INPUT, NZONES=25, ProfileType = 'Powerlaw',noClump = False):
-    
-    from astropy import units as u
-    
     Mcloud,Rcloud,Metallicity,RadField,redshift = INPUT[0], INPUT[1], INPUT[2], INPUT[3], INPUT[4]
     Mcloud *= u.Msun
     Rcloud *= u.pc

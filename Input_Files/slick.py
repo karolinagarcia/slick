@@ -28,21 +28,22 @@ mode = 'total'
 #---------------------------------------#
 
 
-import numpy as np
-import caesar
-import yt
+# import numpy as np
+# import caesar
+# import yt
 import pandas as pd
-import seaborn as sns
-import sys
-import yt.units as u
+# import seaborn as sns
+# import sys
+# import yt.units as u
 import argparse
-from tqdm import tqdm
+# from tqdm import tqdm
 import random
 random.seed(10)
 
-from create_param_file import create_param_file
+from create_cloudspercore_list import create_param_file
 from create_basic_characteristics_table import create_basic_table
-from limfunctions import densityProfile, submm_luminosity, creating_table
+# from limfunctions import densityProfile, submm_luminosity
+from limfunctions import creating_table
 
 
 # Creates table with basic characteristics for all the clouds
