@@ -1,33 +1,3 @@
-# SET THE VARIABLES BELOW:
-
-date = '20220512'
-
-boxsize = 400
-
-ytfilename = '/orange/narayanan/desika.narayanan/gizmo_runs/simba/m25n512/output/snapshot_305.hdf5'
-#ytfilename = '/orange/narayanan/desika.narayanan/gizmo_runs/simba/m25n512/output/snapshot_212.hdf5'
-
-caesarfilename = '/orange/narayanan/desika.narayanan/gizmo_runs/simba/m25n512/output/Groups/caesar_0305_z0.000.hdf5'
-#caesarfilename = '/orange/narayanan/desika.narayanan/gizmo_runs/simba/m25n512/output/Groups/caesar_0212_z1.007.hdf5'
-
-
-#boxsize = 1000
-
-#ytfilename = '/orange/narayanan/karolina.garcia/simba/m100n1024/snaps/snap_m100n1024_105.hdf5.1'
-#caesarfilename = '/orange/narayanan/d.zimmerman/simba/m100n1024/caesar_cats/caesar_simba_105.hdf5'
-
-
-mode = 'total'
-#---
-#mode = 'randomize'
-#n_galaxies_sample = 30
-#min_mass = 10**11
-#max_mass = 3*10**12
-#---
-
-#---------------------------------------#
-
-
 import numpy as np
 import caesar
 import yt
@@ -44,6 +14,18 @@ from create_param_file import create_param_file
 from create_basic_characteristics_table import create_basic_table
 from limfunctions import densityProfile, submm_luminosity, creating_table
 
+from configparser import ConfigParser
+config = ConfigParser()
+config.read('parameters.ini')
+
+date = config['date']['date']
+boxsize = config['snap']['boxsize']
+ytfilename = config['snap']['ytfilename']
+caesarfilename = config['snap']['caesarfilename']
+mode = config['sample']['mode']
+n_galaxies_sample = config['sample']['n_galaxies_sample']
+min_mass = config['sample']['min_mass']
+max_mass = config['sample']['max_mass']
 
 # Creates table with basic characteristics for all the clouds
 basicfilename = create_basic_table(boxsize,ytfilename,caesarfilename)
