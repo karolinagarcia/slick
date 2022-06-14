@@ -1,4 +1,17 @@
-def create_basic_table(boxsize,ytfilename,caesarfilename):
+def create_basic_table(boxsize,ytfilename,caesarfilename,date):
+
+    import numpy as np
+    import caesar
+    import yt
+    import pandas as pd
+    import seaborn as sns
+    import sys
+    import yt.units as u
+    import argparse
+    from tqdm import tqdm
+    import glob
+    import random
+    random.seed(10)
     
     yt_snap = yt.load(ytfilename)
     yt_data = yt_snap.all_data()
@@ -13,6 +26,7 @@ def create_basic_table(boxsize,ytfilename,caesarfilename):
                        'c_Temperature':[], 'c_Pressure':[], 'c_Metallicity':[], 'g_SFR':[], 'g_Redshift':[],
                        'g_Mass_Gas':[], 'g_Mass_H2':[], 'g_Radius':[], 'g_Metallicity':[]})
 
+    #for g in tqdm(np.arange(5)):
     for g in tqdm(np.arange(len(clouds_in_each_galaxy))):
 
         clouds_in_this_galaxy = list(clouds_in_each_galaxy[g][1])
@@ -42,7 +56,7 @@ def create_basic_table(boxsize,ytfilename,caesarfilename):
     df['g_Index'] = df['g_Index'].astype('int')
     df['c_Index'] = df['c_Index'].astype('int')
 
-    basicfilename = '../Output_Tables/BasicCharacteristics_boxlen='+str(boxsize)+'Mpc-h_z='+str(round(yt_snap.parameters['Redshift'],3))+'.csv'
+    basicfilename = 'Basic_Characteristics_m'+str(boxsize)+'_z='+str(round(yt_snap.parameters['Redshift'],3))+'.csv'
     df.to_csv(basicfilename, index = False)
     
-    return basicfilename
+    #return basicfilename

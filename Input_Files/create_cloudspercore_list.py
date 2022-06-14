@@ -1,4 +1,18 @@
-def create_param_file(boxsize,ytfilename,caesarfilename,mode,n_galaxies_sample,min_mass,max_mass):
+def create_cloudspercore_list(boxsize,ytfilename,caesarfilename,mode,n_galaxies_sample,min_mass,max_mass,date):
+
+    import numpy as np
+    import caesar
+    import yt
+    import pandas as pd
+    import seaborn as sns
+    import sys
+    import yt.units as u
+    import argparse
+    from tqdm import tqdm
+    import glob
+    import random
+    random.seed(10)
+    
     yt_snap305 = yt.load(ytfilename)
     yt_snap305_data = yt_snap305.all_data()
     obj = caesar.load(caesarfilename)
@@ -13,8 +27,9 @@ def create_param_file(boxsize,ytfilename,caesarfilename,mode,n_galaxies_sample,m
     n_clouds_per_line = n_of_clouds/700
 
     #with open('parameters_'+str(n_galaxies_sample)+'g_'+str(n_clouds_per_line)+'cperline_mass'+str(min_mass)+'_to_'+str(max_mass)+'.txt', 'w') as f:
-    paramfilename = '../Input_Files/parameters_boxlen='+str(boxsize)+'Mpc-h_z='+str(round(yt_snap305.parameters['Redshift'],3))+'_'+mode+'.txt'
-    with open(paramfilename, 'w') as f:
+    paramfilename = 'Clouds_per_Core_m'+str(boxsize)+'_z='+str(round(yt_snap305.parameters['Redshift'],3))+'_'+mode+'.txt'
+    parampath = paramfilename
+    with open(parampath, 'w') as f:
         for g in tqdm(np.arange(len(galaxies_list))):
             gal_clouds = galaxies_list[g][1]
             sfr_gal = np.sum(yt_snap305_data['PartType0','StarFormationRate'][gal_clouds].value)
@@ -31,4 +46,12 @@ def create_param_file(boxsize,ytfilename,caesarfilename,mode,n_galaxies_sample,m
                 f.write('\n')
         f.close()
         
-    return paramfilename
+    #return paramfilename
+
+    # changing slurm file
+    with open('slick2_jobscript.sh', 'r') as file:
+        data = file.readlines()
+    data[8] = '#SBATCH --array=1-2000\n'
+    data[10] = 'PRAM=$(sed -n "$SLURM_ARRAY_TASK_ID"p '+paramfilename+')\n'
+    with open('slick2_jobscript.sh', 'w') as file:
+        file.writelines(data)
