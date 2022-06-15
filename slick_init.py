@@ -1,5 +1,4 @@
 from sys import argv
-from os import chdir
 from configparser import ConfigParser
 
 from create_basic_characteristics_table import create_basic_table
@@ -16,8 +15,6 @@ def main():
 
     config = parse_parameters(config_file)
 
-    chdir(config["out_dir"])
-
     # Creates table with basic characteristics for all the clouds
     create_basic_table(config)
 
@@ -31,10 +28,6 @@ def parse_parameters(config_file):
     config = ConfigParser()
     config.read(config_file)
     config_result = {}
-    try:
-        config_result["out_dir"] = config["out_dir"]["out_dir"]
-    except KeyError:
-        config_result["out_dir"] = "."
     config_result["boxsize"] = config['snap']['boxsize']
     config_result["ytfilename"] = config['snap']['ytfilename']
     config_result["caesarfilename"] = config['snap']['caesarfilename']
