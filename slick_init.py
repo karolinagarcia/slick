@@ -25,7 +25,7 @@ def main():
     param_filename, max_lines = create_cloudspercore_list(config)
 
     # Creates slick_run_jobscript.sh
-    create_jobscript(param_filename, max_lines)
+    create_jobscript(param_filename, max_lines, config["sbatch"])
 
 def parse_parameters(config_file):
     config = ConfigParser()
@@ -43,6 +43,10 @@ def parse_parameters(config_file):
         config_result["n_galaxies_sample"] = config['sample']['n_galaxies_sample']
         config_result["min_mass"] = config['sample']['min_mass']
         config_result["max_mass"] = config['sample']['max_mass']
+    try:
+        config_result["sbatch"] = {k: v for k, v in config.items("sbatch")}
+    except KeyError:
+        config_result["sbatch"] = {}
 
 if __name__ == "__main__":
     main()

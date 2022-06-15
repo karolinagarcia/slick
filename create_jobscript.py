@@ -1,4 +1,4 @@
-def create_jobscript(param_filename, max_lines, *, SBATCH_args={}):
+def create_jobscript(param_filename, max_lines, SBATCH_args={}):
     default_SBATCH_args = {
         "qos": "narayanan-b",
         "nodes": "1",
