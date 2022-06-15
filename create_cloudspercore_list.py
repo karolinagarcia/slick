@@ -21,22 +21,19 @@ def create_cloudspercore_list(config):
 
     param_filename = f'Output_Files/Clouds_per_Core_m{config["boxsize"]}_z={round(yt_snap305.parameters["Redshift"],3)}_{config["mode"]}.txt'
     with open(param_filename, 'w') as f:
-        num_lines = 1
-        for g in tqdm(np.arange(len(galaxies_list))):
-            gal_clouds = galaxies_list[g][1]
-            sfr_gal = np.sum(yt_snap305_data['PartType0','StarFormationRate'][gal_clouds].value)
-            if sfr_gal>0:
-                f.write(str(galaxies_list[g][0])+' ')
-                batch = 0
-                for c in np.arange(len(gal_clouds)):
-                    batch+=1
-                    if batch > n_clouds_per_line:
-                        batch = 1
-                        f.write('\n')
-                        f.write(str(galaxies_list[g][0])+ ' ')
-                    f.write(str(galaxies_list[g][1][c])+' ')
-                f.write('\n')
-                num_lines += 1
-        f.close()
-        
+        num_lines = 0
+        for gal in tqdm(galaxies_list):
+            gal_clouds = gal[1]
+            sfr_gal = np.sum(yt_snap305_data["PartType0", "StarFormationRate"][gal_clouds].value)
+            if sfr_gal <= 0:
+                continue
+            for i, cloud in gal_clouds.enumerate():
+                if i % n_clouds_per_line == 0:
+                    if i != 0:
+                        f.write("\n")
+                        num_lines += 1
+                    f.write(f"{gal[0]} ")
+                f.write(f"{cloud} ")
+            f.write("\n")
+            num_lines += 1
     return param_filename, num_lines
