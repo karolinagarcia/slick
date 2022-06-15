@@ -237,7 +237,7 @@ def creating_table(gal_id,cloud_list,df_basic,date):
         new_dtypes = {'Galaxy_ID': int, 'Cloud_ID': int}
         df = df.astype(new_dtypes)
 
-    df.to_csv('../Output_Tables/SLURM_'+date+'/lim_df_'+date+'.csv', index = False, mode='a',header=False)
+    df.to_csv(f'Output_Tables/lim_df_{date}.csv', index = False, mode='a',header=False)
     print('>>>>>>>> cloud '+str(c)+' DONE')
     #else:
         #fails_metal+=1
