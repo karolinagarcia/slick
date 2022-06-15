@@ -1,5 +1,6 @@
 from sys import argv
 from configparser import ConfigParser, NoSectionError
+from os import mkdir
 
 from create_basic_characteristics_table import create_basic_table
 from create_cloudspercore_list import create_cloudspercore_list
@@ -14,6 +15,8 @@ def main():
         exit(1)
 
     config = parse_parameters(config_file)
+    
+    mkdir("Output_Files")
 
     # Creates table with basic characteristics for all the clouds
     create_basic_table(config)
