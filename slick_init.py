@@ -1,5 +1,6 @@
 from create_cloudspercore_list import create_cloudspercore_list
 from create_basic_characteristics_table import create_basic_table
+from create_jobscript import create_jobscript
 
 from configparser import ConfigParser
 config = ConfigParser()
@@ -17,7 +18,8 @@ max_mass = config['sample']['max_mass']
 # Creates table with basic characteristics for all the clouds
 create_basic_table(boxsize,ytfilename,caesarfilename,date)
 
-###
-
 # Creates table with basic characteristics for all the clouds (if mode='total'), or for a sample of them (mode = 'randomize')
 create_cloudspercore_list(boxsize,ytfilename,caesarfilename,mode,n_galaxies_sample,min_mass,max_mass,date)
+
+# Creates slick_run_jobscript.sh
+create_jobscript()
