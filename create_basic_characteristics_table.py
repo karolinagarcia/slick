@@ -19,18 +19,17 @@ def create_basic_table(config):
                        'c_Temperature':[], 'c_Pressure':[], 'c_Metallicity':[], 'g_SFR':[], 'g_Redshift':[],
                        'g_Mass_Gas':[], 'g_Mass_H2':[], 'g_Radius':[], 'g_Metallicity':[]})
 
-    #for g in tqdm(np.arange(5)):
-    for g in tqdm(np.arange(len(clouds_in_each_galaxy))):
+    for cloud in tqdm(clouds_in_each_galaxy):
 
-        clouds_in_this_galaxy = list(clouds_in_each_galaxy[g][1])
+        clouds_in_this_galaxy = list(cloud[1])
 
-        gal_index = [int(clouds_in_each_galaxy[g][0])]*len(clouds_in_this_galaxy)
+        gal_index = [int(cloud[0])]*len(clouds_in_this_galaxy)
         sfr_gal = [np.sum(yt_data['PartType0','StarFormationRate'][clouds_in_this_galaxy].value)]*len(clouds_in_this_galaxy)
 
-        Mgas_gal = [clouds_in_each_galaxy[g][2]]*len(clouds_in_this_galaxy)
-        MH2_gal = [clouds_in_each_galaxy[g][3]]*len(clouds_in_this_galaxy)
-        R_gal = [clouds_in_each_galaxy[g][4]]*len(clouds_in_this_galaxy)
-        Metal_gal = [clouds_in_each_galaxy[g][5]]*len(clouds_in_this_galaxy)
+        Mgas_gal = [cloud[2]]*len(clouds_in_this_galaxy)
+        MH2_gal = [cloud[3]]*len(clouds_in_this_galaxy)
+        R_gal = [cloud[4]]*len(clouds_in_this_galaxy)
+        Metal_gal = [cloud[5]]*len(clouds_in_this_galaxy)
 
         Mcloud = yt_data['PartType0','Masses'][clouds_in_this_galaxy].in_units('Msun')
         n_density = yt_data['PartType0', 'Density'][clouds_in_this_galaxy].in_units('g/cm**3')/mH
