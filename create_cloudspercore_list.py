@@ -27,7 +27,7 @@ def create_cloudspercore_list(config):
             sfr_gal = np.sum(yt_snap305_data["PartType0", "StarFormationRate"][gal_clouds].value)
             if sfr_gal <= 0:
                 continue
-            for i, cloud in gal_clouds.enumerate():
+            for (i,), cloud in np.ndenumerate(gal_clouds.flatten()):
                 if i % n_clouds_per_line == 0:
                     if i != 0:
                         f.write("\n")
