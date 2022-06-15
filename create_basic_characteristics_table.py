@@ -5,10 +5,10 @@ import pandas as pd
 import yt.units as u
 from tqdm import tqdm
 
-def create_basic_table(boxsize,ytfilename,caesarfilename,date):
-    yt_snap = yt.load(ytfilename)
+def create_basic_table(config):
+    yt_snap = yt.load(config["ytfilename"])
     yt_data = yt_snap.all_data()
-    obj = caesar.load(caesarfilename)
+    obj = caesar.load(config["caesarfilename"])
 
     clouds_in_each_galaxy = [(gal.GroupID,gal.glist,gal.masses['gas'].in_units('Msun'),gal.masses['H2'].in_units('Msun'),gal.radii['baryon_half_mass'].in_units('pc'),gal.metallicities['mass_weighted']) for gal in obj.galaxies]
 
@@ -49,7 +49,7 @@ def create_basic_table(boxsize,ytfilename,caesarfilename,date):
     df['g_Index'] = df['g_Index'].astype('int')
     df['c_Index'] = df['c_Index'].astype('int')
 
-    basicfilename = 'Basic_Characteristics_m'+str(boxsize)+'_z='+str(round(yt_snap.parameters['Redshift'],3))+'.csv'
-    df.to_csv(basicfilename, index = False)
+    basic_filename = f'Basic_Characteristics_m{config["boxsize"]}_z={round(yt_snap.parameters["Redshift"],3)}.csv'
+    df.to_csv(basic_filename, index = False)
     
-    #return basicfilename
+    #return basic_filename
