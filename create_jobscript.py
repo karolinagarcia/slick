@@ -11,7 +11,7 @@ def create_jobscript(param_filename, max_lines, SBATCH_args={}):
     full_SBATCH_args = {**default_SBATCH_args, **SBATCH_args}
     full_SBATCH_args["array"] = f"1-{max_lines}"
 
-    with open(f"slick_run_jobscript.sh", "w") as f:
+    with open("slick_run_jobscript.sh", "w") as f:
         f.write("#!/bin/bash")
         for arg_name, arg_val in full_SBATCH_args.items():
             f.write(f"#SBATCH --{arg_name}={arg_val}")
