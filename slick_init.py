@@ -1,5 +1,5 @@
 from sys import argv
-from configparser import ConfigParser
+from configparser import ConfigParser, NoSectionError
 
 from create_basic_characteristics_table import create_basic_table
 from create_cloudspercore_list import create_cloudspercore_list
@@ -38,8 +38,9 @@ def parse_parameters(config_file):
         config_result["max_mass"] = config['sample']['max_mass']
     try:
         config_result["sbatch"] = {k: v for k, v in config.items("sbatch")}
-    except KeyError:
+    except NoSectionError:
         config_result["sbatch"] = {}
+    return config_result
 
 if __name__ == "__main__":
     main()
