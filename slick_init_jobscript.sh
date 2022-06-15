@@ -7,4 +7,4 @@
 #SBATCH --mem-per-cpu=8gb
 #SBATCH --time=4:00:00
 
-python slick1.py
+python slick_init.py

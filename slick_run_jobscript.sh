@@ -11,4 +11,4 @@
 PRAM=$(sed -n "$SLURM_ARRAY_TASK_ID"p Clouds_per_Core_m400_z=0.0_total.txt)
 echo $PRAM
 
-python slick2.py --cloudinfo $PRAM
+python slick_run.py --cloudinfo $PRAM

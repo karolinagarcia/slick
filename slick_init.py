@@ -1,6 +1,3 @@
-import sys
-
-sys.path.insert(0, '../../Input_Files')
 from create_cloudspercore_list import create_cloudspercore_list
 from create_basic_characteristics_table import create_basic_table
 

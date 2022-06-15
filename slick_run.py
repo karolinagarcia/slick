@@ -1,11 +1,7 @@
 import pandas as pd
-import sys
 import argparse
 import glob
-import random
-random.seed(10)
 
-sys.path.insert(0, '../../Input_Files')
 from limfunctions import creating_table
 
 from configparser import ConfigParser
@@ -20,16 +16,6 @@ mode = config['sample']['mode']
 n_galaxies_sample = config['sample']['n_galaxies_sample']
 min_mass = config['sample']['min_mass']
 max_mass = config['sample']['max_mass']
-
-# Creates table with basic characteristics for all the clouds
-# basicfilename = create_basic_table(boxsize,ytfilename,caesarfilename)
-
-###
-
-# Creates table with basic characteristics for all the clouds (if mode='total'), or for a sample of them (mode = 'randomize')
-# cloudspercorefilename = create_cloudspercore_list(boxsize,ytfilename,caesarfilename,mode,n_galaxies_sample,min_mass,max_mass)
-
-###
 
 # Creates final luminosity table
 df_basic = pd.read_csv(glob.glob('Basic*')[0])
