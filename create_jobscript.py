@@ -1,4 +1,4 @@
-def create_jobscript(param_filename, *, SBATCH_args={}):
+def create_jobscript(param_filename, max_lines, *, SBATCH_args={}):
     default_SBATCH_args = {
         "qos": "narayanan-b",
         "nodes": "1",
@@ -6,11 +6,10 @@ def create_jobscript(param_filename, *, SBATCH_args={}):
         "cpus-per-task": "1",
         "mem-per-cpu": "8gb",
         "time": "96:00:00",
-        # NOTE: array param depends on # of clouds
-        # "array": f"1-{max_lines}"
     }
     # NOTE: this makes no guarantees about the order in which SBATCH args are laid out
     full_SBATCH_args = {**default_SBATCH_args, **SBATCH_args}
+    full_SBATCH_args["array"] = f"1-{max_lines}"
 
     with open(f"slick_run_jobscript.sh", "w") as f:
         f.write("#!/bin/bash")

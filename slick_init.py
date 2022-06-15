@@ -22,10 +22,10 @@ def main():
     create_basic_table(config)
 
     # Creates table with basic characteristics for all the clouds (if mode='total'), or for a sample of them (mode = 'randomize')
-    param_filename = create_cloudspercore_list(config)
+    param_filename, max_lines = create_cloudspercore_list(config)
 
     # Creates slick_run_jobscript.sh
-    create_jobscript(param_filename)
+    create_jobscript(param_filename, max_lines)
 
 def parse_parameters(config_file):
     config = ConfigParser()
