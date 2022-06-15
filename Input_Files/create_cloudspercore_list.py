@@ -1,18 +1,11 @@
-def create_cloudspercore_list(boxsize,ytfilename,caesarfilename,mode,n_galaxies_sample,min_mass,max_mass,date):
+import numpy as np
+import caesar
+import yt
+from tqdm import tqdm
+import random
+random.seed(10)
 
-    import numpy as np
-    import caesar
-    import yt
-    import pandas as pd
-    import seaborn as sns
-    import sys
-    import yt.units as u
-    import argparse
-    from tqdm import tqdm
-    import glob
-    import random
-    random.seed(10)
-    
+def create_cloudspercore_list(boxsize,ytfilename,caesarfilename,mode,n_galaxies_sample,min_mass,max_mass,date):
     yt_snap305 = yt.load(ytfilename)
     yt_snap305_data = yt_snap305.all_data()
     obj = caesar.load(caesarfilename)

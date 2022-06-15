@@ -1,18 +1,11 @@
-def create_basic_table(boxsize,ytfilename,caesarfilename,date):
+import numpy as np
+import caesar
+import yt
+import pandas as pd
+import yt.units as u
+from tqdm import tqdm
 
-    import numpy as np
-    import caesar
-    import yt
-    import pandas as pd
-    import seaborn as sns
-    import sys
-    import yt.units as u
-    import argparse
-    from tqdm import tqdm
-    import glob
-    import random
-    random.seed(10)
-    
+def create_basic_table(boxsize,ytfilename,caesarfilename,date):
     yt_snap = yt.load(ytfilename)
     yt_data = yt_snap.all_data()
     obj = caesar.load(caesarfilename)

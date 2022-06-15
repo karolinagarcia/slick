@@ -1,14 +1,4 @@
-import numpy as np
-import caesar
-import yt
-import pandas as pd
-import seaborn as sns
 import sys
-import yt.units as u
-import argparse
-from tqdm import tqdm
-import random
-random.seed(10)
 
 sys.path.insert(0, '../../Input_Files')
 from create_cloudspercore_list import create_cloudspercore_list
