@@ -4,7 +4,6 @@ def parse_parameters(config_file):
     config = ConfigParser()
     config.read(config_file)
     config_result = {}
-    config_result["date"] = config["date"]["date"]
     config_result["boxsize"] = config['snap']['boxsize']
     config_result["ytfilename"] = config['snap']['ytfilename']
     config_result["caesarfilename"] = config['snap']['caesarfilename']
