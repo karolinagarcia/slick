@@ -1,38 +1,17 @@
 # densityPrifile and submm_luminosity functions were slightly adapted from the code developed in Popping et al., 2019
 
-import os
 import numpy as np
-import scipy
-import matplotlib.pyplot as plt
 from datetime import datetime
-from datetime import timedelta
-import caesar
-import yt
 import pandas as pd
-import seaborn as sns
-import sys
-from despotic import cloud,zonedcloud
+from despotic import zonedcloud
 from despotic.chemistry import NL99_GC
 from astropy import units as u
 from astropy import constants as constants
-from astropy.cosmology import WMAP9 as cosmo
-from scipy.integrate import quad
-import argparse
-sns.set_theme()
-import scipy.constants as physcons
-import yt.units as u
-import random
 
 DMR = 1.# Dust-to-metal ratio
 mu_atom = 2.33 #atomic weight
 
 def densityProfile(mass,size,NZONES = 25, ProfileType = 'Plummer'):
-    
-    from astropy import units as u
-    
-    #idk why I have to import this inside of the function, but this is the only way it's working
-    #from astropy import units as u
-    
     Radii = np.linspace(0*u.pc,size,NZONES+1)
     radii = (Radii[1:]+ Radii[:-1])/2
     dR = np.abs(Radii[1:] - Radii[:-1])
@@ -60,9 +39,6 @@ def densityProfile(mass,size,NZONES = 25, ProfileType = 'Plummer'):
     return density, dR.to(u.cm)
 
 def submm_luminosity(INPUT, NZONES=25, ProfileType = 'Powerlaw',noClump = False):
-    
-    from astropy import units as u
-    
     Mcloud,Rcloud,Metallicity,RadField,redshift = INPUT[0], INPUT[1], INPUT[2], INPUT[3], INPUT[4]
     Mcloud *= u.Msun
     Rcloud *= u.pc
@@ -251,17 +227,17 @@ def creating_table(gal_id,cloud_list,df_basic,date):
         #if Metallicity > 1e-3 and Pressure > 100: #see if I can run without these requirements
         try:
             out = submm_luminosity([Mcloud,Rcloud,Metallicity,RadField,redshift],NZONES=8)
-            df = df.append({'Galaxy_ID':int(gal_id), 'Cloud_ID':int(c), 'Mcloud':out[0], 'Rcloud':out[1], 'Metallicity':out[2], 'RadField':out[3], 'redshift':out[4], 'H2_lcii':out[5], 'CO10':out[6], 'CO21':out[7], 'CO32':out[8], 'CO43':out[9], 'CO54':out[10], 'CO10_intTB':out[11], 'CO21_intTB':out[12], 'CO32_intTB':out[13], 'CO43_intTB':out[14], 'CO54_intTB':out[15], 'CI10':out[16], 'CI21':out[17], 'CO65':out[18], 'CO76':out[19], 'CO87':out[20], 'CO98':out[21], 'CO65_intTB':out[22], 'CO76_intTB':out[23], 'CO87_intTB':out[24], 'CO98_intTB':out[25], 'OI1':out[26], 'OI2':out[27], 'OI3':out[28], 'fH2':out[29]},ignore_index=True)
+            df = pd.concat([df, pd.DataFrame({'Galaxy_ID':int(gal_id), 'Cloud_ID':int(c), 'Mcloud':out[0], 'Rcloud':out[1], 'Metallicity':out[2], 'RadField':out[3], 'redshift':out[4], 'H2_lcii':out[5], 'CO10':out[6], 'CO21':out[7], 'CO32':out[8], 'CO43':out[9], 'CO54':out[10], 'CO10_intTB':out[11], 'CO21_intTB':out[12], 'CO32_intTB':out[13], 'CO43_intTB':out[14], 'CO54_intTB':out[15], 'CI10':out[16], 'CI21':out[17], 'CO65':out[18], 'CO76':out[19], 'CO87':out[20], 'CO98':out[21], 'CO65_intTB':out[22], 'CO76_intTB':out[23], 'CO87_intTB':out[24], 'CO98_intTB':out[25], 'OI1':out[26], 'OI2':out[27], 'OI3':out[28], 'fH2':out[29]}, index=[0])], ignore_index=True)
         except:
             print('despoticError, moving on \n despoticError, moving on \n despoticError, moving on \n despoticError, moving on \n despoticError, moving on \n despoticError, moving on \n')
             print('>>>>>>>> galaxy '+str(g)+', cloud '+str(c)+' FAILED due to despotic')
-            df = df.append({'Galaxy_ID':int(gal_id), 'Cloud_ID':int(c), 'Mcloud':-99, 'Rcloud':-99, 'Metallicity':-99, 'RadField':-99, 'redshift':-99, 'H2_lcii':-99, 'CO10':-99, 'CO21':-99, 'CO32':-99, 'CO43':-99, 'CO54':-99, 'CO10_intTB':-99, 'CO21_intTB':-99, 'CO32_intTB':-99, 'CO43_intTB':-99, 'CO54_intTB':-99, 'CI10':-99, 'CI21':-99, 'CO65':-99, 'CO76':-99, 'CO87':-99, 'CO98':-99, 'CO65_intTB':-99, 'CO76_intTB':-99, 'CO87_intTB':-99, 'CO98_intTB':-99, 'OI1':-99, 'OI2':-99, 'OI3':-99, 'fH2':-99},ignore_index=True)
+            df = pd.concat([df, pd.DataFrame({'Galaxy_ID':int(gal_id), 'Cloud_ID':int(c), 'Mcloud':-99, 'Rcloud':-99, 'Metallicity':-99, 'RadField':-99, 'redshift':-99, 'H2_lcii':-99, 'CO10':-99, 'CO21':-99, 'CO32':-99, 'CO43':-99, 'CO54':-99, 'CO10_intTB':-99, 'CO21_intTB':-99, 'CO32_intTB':-99, 'CO43_intTB':-99, 'CO54_intTB':-99, 'CI10':-99, 'CI21':-99, 'CO65':-99, 'CO76':-99, 'CO87':-99, 'CO98':-99, 'CO65_intTB':-99, 'CO76_intTB':-99, 'CO87_intTB':-99, 'CO98_intTB':-99, 'OI1':-99, 'OI2':-99, 'OI3':-99, 'fH2':-99}, index=[0])], ignore_index=True)
             pass
 
         new_dtypes = {'Galaxy_ID': int, 'Cloud_ID': int}
         df = df.astype(new_dtypes)
 
-    df.to_csv('../Output_Tables/SLURM_'+date+'/lim_df_'+date+'.csv', index = False, mode='a',header=False)
+    df.to_csv(f'Output_Tables/lim_df_{date}.csv', index = False, mode='a',header=False)
     print('>>>>>>>> cloud '+str(c)+' DONE')
     #else:
         #fails_metal+=1
