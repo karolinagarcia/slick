@@ -2,12 +2,12 @@ import pathlib
 
 def create_jobscript(param_filename, max_lines, SBATCH_args={}):
     default_SBATCH_args = {
-        "qos": "narayanan-b",
         "nodes": "1",
         "tasks-per-node": "1",
         "cpus-per-task": "1",
         "mem-per-cpu": "8gb",
         "time": "96:00:00",
+        "output": "/dev/null"
     }
     # NOTE: this makes no guarantees about the order in which SBATCH args are laid out
     full_SBATCH_args = {**default_SBATCH_args, **SBATCH_args}
