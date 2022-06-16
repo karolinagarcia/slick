@@ -16,7 +16,7 @@ def main():
 
     config = parse_parameters(config_file)
     
-    mkdir("Output_Files")
+    mkdir(config["output_dir"])
 
     # Creates table with basic characteristics for all the clouds
     create_basic_table(config)

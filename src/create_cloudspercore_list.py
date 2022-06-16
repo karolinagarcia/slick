@@ -19,7 +19,7 @@ def create_cloudspercore_list(config):
     n_of_clouds = sum([len(galaxies_list[i][1]) for i in np.arange(n_of_gals)])
     n_clouds_per_line = n_of_clouds/700
 
-    param_filename = f'Output_Files/Clouds_per_Core_m{config["boxsize"]}_z={round(yt_snap305.parameters["Redshift"],3)}_{config["mode"]}.txt'
+    param_filename = f'{config["output_dir"]}/Clouds_per_Core_m{config["boxsize"]}_z={round(yt_snap305.parameters["Redshift"],3)}_{config["mode"]}.txt'
     with open(param_filename, 'w') as f:
         num_lines = 0
         for gal in tqdm(galaxies_list):

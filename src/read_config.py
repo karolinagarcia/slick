@@ -16,4 +16,8 @@ def parse_parameters(config_file):
         config_result["sbatch"] = {k: v for k, v in config.items("sbatch")}
     except NoSectionError:
         config_result["sbatch"] = {}
+    try:
+        config_result["output_dir"] = config["output_dir"]["output_dir"]
+    except NoSectionError:
+        config_result["output_dir"] = "Output_Files"
     return config_result
