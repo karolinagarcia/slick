@@ -26,3 +26,4 @@ df = pd.DataFrame({'Galaxy_ID':[], 'Cloud_ID':[], 'Mcloud':[], 'Rcloud':[], 'Met
 # df.to_csv(f'{config["output_dir"]}/lim_df_{config["date"]}.csv', index = False)
 
 creating_table(gal_number, cloud_list, df_basic, config["output_dir"])
+print("Slick run completed successfully")
