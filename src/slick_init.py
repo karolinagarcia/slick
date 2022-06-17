@@ -27,7 +27,7 @@ def main():
     # Creates slick_run_jobscript.sh
     create_jobscript(param_filename, max_lines, config["sbatch"])
 
-    if not config["skip_run"]:
+    if config["skip_run"]:
         # non-0 exit code signals to not do the slick run step
         exit(1)
 
