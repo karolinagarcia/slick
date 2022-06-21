@@ -16,7 +16,7 @@ def main():
 
     config = parse_parameters(config_file)
     
-    mkdir("Output_Files")
+    mkdir(config["output_dir"])
 
     # Creates table with basic characteristics for all the clouds
     create_basic_table(config)
@@ -26,6 +26,10 @@ def main():
 
     # Creates slick_run_jobscript.sh
     create_jobscript(param_filename, max_lines, config["sbatch"])
+
+    if config["skip_run"]:
+        # non-0 exit code signals to not do the slick run step
+        exit(1)
 
 if __name__ == "__main__":
     main()

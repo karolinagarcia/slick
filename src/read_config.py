@@ -4,7 +4,6 @@ def parse_parameters(config_file):
     config = ConfigParser()
     config.read(config_file)
     config_result = {}
-    config_result["date"] = config["date"]["date"]
     config_result["boxsize"] = config['snap']['boxsize']
     config_result["ytfilename"] = config['snap']['ytfilename']
     config_result["caesarfilename"] = config['snap']['caesarfilename']
@@ -17,4 +16,6 @@ def parse_parameters(config_file):
         config_result["sbatch"] = {k: v for k, v in config.items("sbatch")}
     except NoSectionError:
         config_result["sbatch"] = {}
+    config_result["output_dir"] = config.get("run", "output_dir", fallback="Output_Files")
+    config_result["skip_run"] = config.getboolean("run", "skip_run", fallback=False)
     return config_result

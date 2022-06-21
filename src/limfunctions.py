@@ -194,7 +194,7 @@ def submm_luminosity(INPUT, NZONES=25, ProfileType = 'Powerlaw',noClump = False)
         
     return np.array([Mcloud.value, Rcloud.value, Metallicity, RadField, redshift,H2_lcii.value[0],CO10.value, CO21.value, CO32.value, CO43.value, CO54.value, CO10_intTB, CO21_intTB, CO32_intTB, CO43_intTB, CO54_intTB, CI10.value, CI21.value, CO65.value, CO76.value, CO87.value, CO98.value, CO65_intTB, CO76_intTB, CO87_intTB, CO98_intTB, OI1.value, OI2.value, OI3.value, fH2])
 
-def creating_table(gal_id,cloud_list,df_basic,date):
+def creating_table(gal_id, cloud_list, df_basic, output_dir):
 
     t1=datetime.now()
     
@@ -237,7 +237,7 @@ def creating_table(gal_id,cloud_list,df_basic,date):
         new_dtypes = {'Galaxy_ID': int, 'Cloud_ID': int}
         df = df.astype(new_dtypes)
 
-    df.to_csv(f'Output_Tables/lim_df_{date}.csv', index = False, mode='a',header=False)
+    df.to_csv(f'{output_dir}/lim_df.csv', index = False, mode='a', header=False)
     print('>>>>>>>> cloud '+str(c)+' DONE')
     #else:
         #fails_metal+=1

@@ -48,7 +48,7 @@ def create_basic_table(config):
     df['g_Index'] = df['g_Index'].astype('int')
     df['c_Index'] = df['c_Index'].astype('int')
 
-    basic_filename = f'Output_Files/Basic_Characteristics_m{config["boxsize"]}_z={round(yt_snap.parameters["Redshift"],3)}.csv'
+    basic_filename = f'{config["output_dir"]}/Basic_Characteristics_m{config["boxsize"]}_z={round(yt_snap.parameters["Redshift"],3)}.csv'
     df.to_csv(basic_filename, index = False)
     
     #return basic_filename
