@@ -1,6 +1,6 @@
 import pathlib
 
-def create_jobscript(param_filename, max_lines, SBATCH_args={}):
+def create_jobscript(param_filename, max_lines, param_file, SBATCH_args={}):
     default_SBATCH_args = {
         "nodes": "1",
         "tasks-per-node": "1",
@@ -16,4 +16,4 @@ def create_jobscript(param_filename, max_lines, SBATCH_args={}):
     with open("slick_run_jobscript.sh", "w") as f:
         f.write("#!/bin/bash\n")
         f.writelines(f"#SBATCH --{arg_name}={arg_val}\n" for arg_name, arg_val in full_SBATCH_args.items())
-        f.write(f"python {pathlib.Path(__file__).parent.resolve()}/slick_run.py --parameters $1 --cloudinfofile {param_filename} --cloudinfoline $SLURM_ARRAY_TASK_ID\n")
+        f.write(f"python {pathlib.Path(__file__).parent.resolve()}/slick_run.py --parameters {param_file} --cloudinfofile {param_filename} --cloudinfoline $SLURM_ARRAY_TASK_ID\n")
