@@ -25,7 +25,7 @@ def main():
     param_filename, max_lines = create_cloudspercore_list(config)
 
     # Creates slick_run_jobscript.sh
-    create_jobscript(param_filename, max_lines, config["sbatch"])
+    create_jobscript(param_filename, max_lines, config_file, config["sbatch"])
 
     if config["skip_run"]:
         # non-0 exit code signals to not do the slick run step
