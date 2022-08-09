@@ -1,4 +1,3 @@
-## How to use
 `setup.sh` marks the two frontend scripts as executable and adds the bin directory to the path.
 This only needs to happen once ever.
 ```bash
@@ -26,7 +25,7 @@ caesarfilename=[str]
 ; Determines whether slick should operate on all clouds or a sample of clouds.
 mode=[str]
 ; How many galaxies should slick operate on.
-; Only required if mode = 'randomized'
+; Only requireßd if mode = 'randomized'
 n_galaxies_sample=[int]
 ; Minimum galaxy mass bound to operate on.
 ; Only required if mode = 'randomized'
