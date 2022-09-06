@@ -35,7 +35,7 @@ def create_basic_table(config):
         n_density = yt_data['PartType0', 'Density'][clouds_in_this_galaxy].in_units('g/cm**3')/mH
         temp = yt_data['PartType0', 'Temperature'][clouds_in_this_galaxy]
         P = n_density*kB*temp
-        Rcloud =  (P/(kB*1.e4))**(-0.25) * (Mcloud/(290*u.Msun))**0.5 * u.pc
+        Rcloud =  (P/(kB*1.e4*u.K/(u.cm*u.cm*u.cm)))**(-0.25) * (Mcloud/(290*u.Msun))**0.5 * u.pc
         Metallicity = yt_data['PartType0','Metallicity_00'][clouds_in_this_galaxy]/.0196
         redshift = [yt_snap.parameters['Redshift']]*len(clouds_in_this_galaxy)
 
