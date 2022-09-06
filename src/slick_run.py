@@ -14,7 +14,7 @@ args = parser.parse_args()
 
 cloud_info_file = args.cloudinfofile
 with open(cloud_info_file, "r") as f:
-    [gal_number, *cloud_list] = [int(x) for x in next(x for i, x in enumerate(f) if i == args.cloudinfoline).split()]
+    [gal_number, *cloud_list] = [int(x) for x in next(x for i, x in enumerate(f) if i == args.cloudinfoline-1).split()]
 
 config = parse_parameters(args.parameters)
 
