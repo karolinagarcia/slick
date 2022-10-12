@@ -109,7 +109,7 @@ def submm_luminosity(INPUT, NZONES=25, ProfileType = 'Powerlaw',noClump = False)
     else:
         #a fixed average density
         density = (Mcloud / (4./3 * np.pi * Rcloud**3) / constants.m_p).cgs
-        density /= mu_atom #attomic weight correction
+        density /= mu_atom #atomic weight correction
         column_density_cgs = density * Rcloud.to(u.cm)
 
         gmc = zonedcloud(colDen = np.linspace(column_density_cgs.value/NZONES,column_density_cgs.value,NZONES))
@@ -252,26 +252,18 @@ def submm_luminosity(INPUT, NZONES=25, ProfileType = 'Powerlaw',noClump = False)
         
     return np.array([Mcloud.value, Rcloud.value, Metallicity, RadField, redshift,H2_lcii.value[0],CO10.value, CO21.value, CO32.value, CO43.value, CO54.value, CO10_intTB, CO21_intTB, CO32_intTB, CO43_intTB, CO54_intTB, CI10.value, CI21.value, CO65.value, CO76.value, CO87.value, CO98.value, CO65_intTB, CO76_intTB, CO87_intTB, CO98_intTB, OI1.value, OI2.value, OI3.value, fH2, fH, fHp, gas_temp, dust_temp, n_dens, col_dens, Mol_gas.value, CO10_areal_TB])
 
-#def creating_table(gal_id, cloud_list, df_basic, output_dir):
 def creating_table(cloud_list, df_basic, output_dir):
-
-    tlimit = datetime(2022, 10, 16, 8, 00, 00, 000000)
     
     df = pd.DataFrame({'Galaxy_ID':[], 'Cloud_ID':[], 'Mcloud':[], 'Rcloud':[], 'c_Pressure':[], 'Metallicity':[], 'RadField':[], 'c_DMR':[], 'redshift':[], 'H2_lcii':[], 'CO10':[], 'CO21':[], 'CO32':[], 'CO43':[], 'CO54':[], 'CO10_intTB':[], 'CO21_intTB':[], 'CO32_intTB':[], 'CO43_intTB':[], 'CO54_intTB':[], 'CI10':[], 'CI21':[], 'CO65':[], 'CO76':[], 'CO87':[], 'CO98':[], 'CO65_intTB':[], 'CO76_intTB':[], 'CO87_intTB':[], 'CO98_intTB':[], 'OI1':[], 'OI2':[], 'OI3':[], 'fH2':[], 'fH':[], 'fHp':[], 'gas_temp':[], 'dust_temp':[], 'n_dens':[],'col_dens':[], 'Mol_gas':[], 'CO10_areal_TB':[], 'time':[]})
 
     for c in cloud_list:
-            
-        tnow = datetime.now()
-        
-        if tnow>tlimit:
-            break
         
         Mcloud = float(df_basic['c_Mass'][df_basic['c_Index']==c])
         Rcloud = float(df_basic['c_Radius'][df_basic['c_Index']==c])
         Metallicity = float(df_basic['c_Metallicity'][df_basic['c_Index']==c])
         Pressure = float(df_basic['c_Pressure'][df_basic['c_Index']==c])
         RadField = float(df_basic['c_RadField'][df_basic['c_Index']==c])
-        redshift = float(df_basic['g_Redshift'][0])    #redshift = float(df_basic['g_Redshift'][df_basic['c_Index']==c])
+        redshift = float(df_basic['g_Redshift'][df_basic['c_Index']==c])
         DMR = float(df_basic['c_DMR'][df_basic['c_Index']==c])
         
         gal_id = df_basic['g_Index'][df_basic['c_Index']==c]
@@ -280,7 +272,6 @@ def creating_table(cloud_list, df_basic, output_dir):
         
         t1 = datetime.now()
         
-        #if Metallicity > 1e-3 and Pressure > 100: #see if I can run without these requirements
         try:
             out = submm_luminosity([Mcloud,Rcloud,Metallicity,RadField,redshift,DMR],NZONES=16)
             t2 = datetime.now()
@@ -292,7 +283,6 @@ def creating_table(cloud_list, df_basic, output_dir):
             time = (t2-t1).total_seconds()
             gas_temp,dust_temp,n_dens,col_dens = compute_temp_dens(Mcloud*u.Msun,Rcloud*u.pc,Tg=-99*np.ones(16),Td=-99*np.ones(16),NZONES=16)
             print('despoticError, moving on \n despoticError, moving on \n despoticError, moving on \n despoticError, moving on \n despoticError, moving on \n despoticError, moving on \n')
-            #print('>>>>>>>> galaxy '+str(g)+', cloud '+str(c)+' FAILED due to despotic')
             df_aux = pd.DataFrame({'Galaxy_ID':int(gal_id), 'Cloud_ID':int(c), 'Mcloud':Mcloud, 'Rcloud':Rcloud, 'c_Pressure':Pressure, 'Metallicity':Metallicity, 'RadField':RadField, 'c_DMR':DMR, 'redshift':redshift, 'H2_lcii':-99, 'CO10':-99, 'CO21':-99, 'CO32':-99, 'CO43':-99, 'CO54':-99, 'CO10_intTB':-99, 'CO21_intTB':-99, 'CO32_intTB':-99, 'CO43_intTB':-99, 'CO54_intTB':-99, 'CI10':-99, 'CI21':-99, 'CO65':-99, 'CO76':-99, 'CO87':-99, 'CO98':-99, 'CO65_intTB':-99, 'CO76_intTB':-99, 'CO87_intTB':-99, 'CO98_intTB':-99, 'OI1':-99, 'OI2':-99, 'OI3':-99, 'fH2':-99, 'fH':-99, 'fHp':-99, 'gas_temp':gas_temp, 'dust_temp':dust_temp, 'n_dens':n_dens, 'col_dens':col_dens, 'Mol_gas':-99, 'CO10_areal_TB':-99, 'time':time},index=[1])
             df = pd.concat([df,df_aux])
             pass
