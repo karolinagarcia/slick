@@ -1,13 +1,42 @@
 # SLICK -- Suite of Line Intensity Calculations (by Karol ;)
-#### SLICK is a tool that calculates many different line intensities from large sets of clouds/galaxies.
-#### It was designed to work for SIMBA simulation datasets, but it will be expanded and generalized in the near future.
 
-## How it works
-#### 1) It takes a SIMBA snapshot and its caesar catalog, and write the relevant information from all its particles in a pandas dataframe (which will be saved as "Basic_Characteristics*")
-#### 2) It creates a file with lists of cloud IDs (which will be saved as "Clouds_per_Core*"). Each line represents the IDs that will be passed to each core.
-#### 3) It runs despotic on all the particles (or on a random set of those depending on the given parameters), and outputs a table with their CO, C+ and CII luminosities.
+**_slick_** is a tool to calculate CO, [CI] and [CII] line intensities from extremely large datasets of clouds/galaxies in hydrodynamical simulations. It runs radiative transfer equations on each single particle of the simulation, and outputs a table with all clouds' and galaxies' luminosities for all redshifts of interest.
 
-## How to use
+As soon as we upload the paper on the arXiv (coming soon!), we will make available here the option to generate light cones and intensity maps for redshifts of interest, as well as analysis plots. Besides that, the user will be able to generate estimated luminosities on extended simulation boxes using Machine Learning techniques.
+
+This algorithm was designed to be used on [SIMBA](http://simba.roe.ac.uk/) simulation datasets, but it will be expanded and generalized in the near future.
+
+<br>
+
+## developers and collaborators
+
+*slick* was developed by **[Karolina Garcia](https://karolinagarcia.github.io/)** in collaboration with:
+- Desika Narayanan
+- Gergo Popping
+- Sagan Sutherland
+- Thomas Greve
+- Romeel Dave
+
+And it has been in use by:
+- Anirudh Ravishankar
+
+<br>
+
+## how it works
+
+1) It takes a [SIMBA](http://simba.roe.ac.uk/) snapshot and its galaxy catalog (given by *[caesar](https://caesar.readthedocs.io/en/latest/)*), and writes the relevant information from all its particles in a pandas dataframe (which will be saved as "Basic_Characteristics*")
+
+<br>
+
+2) It creates a file with lists of cloud IDs (which will be saved as "Clouds_per_Core*"). Each line represents the IDs that will be passed to each core.
+
+<br>
+
+3) It runs radiative transfer equations on all the particles (or on a random set of those depending on the given parameters), and outputs a table with their CO, [CI] and [CII] luminosities.
+
+<br>
+
+## how to use
 `setup.sh` marks the two frontend scripts as executable and adds the bin directory to the path.
 This only needs to happen once ever.
 ```bash
@@ -19,7 +48,10 @@ To create a template slick project, run `slick_new.sh`. This creates [parameters
 `run.sh` calls slick_frontend.sh. It assumes slick_frontend.sh is on the path, so this will need to be changed if you haven't run `setup.sh` previously.
 Running `sbatch run.sh` will enqueue the job for the slick_init step and the slick_run step (unless the skip_run option is set).
 
-### Parameters File
+<br>
+
+## options in the parameters file
+
 The behavior of slick is configured by the parameters.ini file. The following describes the options currently available.
 ```ini
 [snap]
@@ -35,7 +67,7 @@ caesarfilename=[str]
 ; Determines whether slick should operate on all clouds or a sample of clouds.
 mode=[str]
 ; How many galaxies should slick operate on.
-; Only required if mode = 'randomized'
+; Only requireßd if mode = 'randomized'
 n_galaxies_sample=[int]
 ; Minimum galaxy mass bound to operate on.
 ; Only required if mode = 'randomized'
