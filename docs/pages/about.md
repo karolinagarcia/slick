@@ -1,13 +1,10 @@
 # about
 
-**_slick_** is a tool to calculate CO, [CI] and [CII] line intensities from extremely large datasets of clouds/galaxies in hydrodynamical simulations. It runs radiative transfer equations on each single particle of the simulation, and outputs:
-1) A table with all clouds' and galaxies' luminosities
-2) A lightcone considering a certain redshift range
-3) Intensity maps for specific redshifts
+**_slick_** is a tool to calculate CO, [CI] and [CII] line intensities from extremely large datasets of clouds/galaxies in hydrodynamical simulations. It runs radiative transfer equations on each single particle of the simulation, and outputs a table with all clouds' and galaxies' luminosities for all redshifts of interest.
 
-It was designed to be used on [SIMBA](http://simba.roe.ac.uk/) simulation datasets, but it will be expanded and generalized in the near future.
+As soon as we upload the paper on the arXiv (coming soon!), we will make available an option to generate light cones and intensity maps for redshifts of interest, as well as analysis plots. Besides that, the user will be able to generate estimated luminosities on extended simulation boxes using Machine Learning techniques.
 
-?> We are currently implementing an option to calculate estimated luminosities even faster on extended simulation boxes using Machine Learning techniques.
+This algorithm was designed to be used on [SIMBA](http://simba.roe.ac.uk/) simulation datasets, but it will be expanded and generalized in the near future.
 
 ### developers and collaborators
 
