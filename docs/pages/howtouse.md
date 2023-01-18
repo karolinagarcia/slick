@@ -1,3 +1,5 @@
+# how to use
+
 `setup.sh` marks the two frontend scripts as executable and adds the bin directory to the path.
 This only needs to happen once ever.
 ```bash
@@ -9,7 +11,10 @@ To create a template slick project, run `slick_new.sh`. This creates [parameters
 `run.sh` calls slick_frontend.sh. It assumes slick_frontend.sh is on the path, so this will need to be changed if you haven't run `setup.sh` previously.
 Running `sbatch run.sh` will enqueue the job for the slick_init step and the slick_run step (unless the skip_run option is set).
 
-### Parameters File
+<br>
+
+### **about the parameters file**
+
 The behavior of slick is configured by the parameters.ini file. The following describes the options currently available.
 ```ini
 [snap]
