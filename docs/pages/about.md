@@ -1,4 +1,4 @@
-# about
+# About
 
 **_slick_** is a tool to calculate CO, [CI] and [CII] line intensities from extremely large datasets of clouds/galaxies in hydrodynamical simulations. It runs radiative transfer equations on each single particle of the simulation, and outputs a table with all clouds' and galaxies' luminosities for all redshifts of interest.
 
@@ -6,7 +6,7 @@ As soon as we upload the paper on the arXiv (coming soon!), we will make availab
 
 This algorithm was designed to be used on [SIMBA](http://simba.roe.ac.uk/) simulation datasets, but it will be expanded and generalized in the near future.
 
-### developers and collaborators
+### Developers and collaborators
 
 *slick* was developed by **[Karolina Garcia](https://karolinagarcia.github.io/)** in collaboration with:
 - Desika Narayanan

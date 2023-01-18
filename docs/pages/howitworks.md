@@ -1,4 +1,4 @@
-# how it works
+# How it works
 
 <br>
 

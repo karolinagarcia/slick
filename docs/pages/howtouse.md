@@ -1,4 +1,4 @@
-# how to use
+# How to use
 
 `setup.sh` marks the two frontend scripts as executable and adds the bin directory to the path.
 This only needs to happen once ever.
@@ -13,7 +13,7 @@ Running `sbatch run.sh` will enqueue the job for the slick_init step and the sli
 
 <br>
 
-### **about the parameters file**
+### **About the parameters file**
 
 The behavior of slick is configured by the parameters.ini file. The following describes the options currently available.
 ```ini
