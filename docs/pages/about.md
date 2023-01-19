@@ -16,6 +16,4 @@ This algorithm was designed to be used on [SIMBA](http://simba.roe.ac.uk/) simul
 - Sagan Sutherland
 - Thomas Greve
 - Romeel Davé
-
-And it has been in use by:
 - Anirudh Ravishankar
