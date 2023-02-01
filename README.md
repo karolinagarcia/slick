@@ -14,11 +14,9 @@ This algorithm was designed to be used on [SIMBA](http://simba.roe.ac.uk/) simul
 - Desika Narayanan
 - Gergö Popping
 - Sagan Sutherland
+- Anirudh Ravishankar
 - Thomas Greve
 - Romeel Davé
-
-And it has been in use by:
-- Anirudh Ravishankar
 
 <br>
 
