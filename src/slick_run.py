@@ -14,7 +14,7 @@ args = parser.parse_args()
 
 cloud_info_file = args.cloudinfofile
 with open(cloud_info_file, "r") as f:
-    [gal_number, *cloud_list] = [int(x) for x in next(x for i, x in enumerate(f) if i == args.cloudinfoline).split()]
+    [*cloud_list] = [int(x) for x in next(x for i, x in enumerate(f) if i == args.cloudinfoline-1).split()]
 
 config = parse_parameters(args.parameters)
 
@@ -25,5 +25,5 @@ df = pd.DataFrame({'Galaxy_ID':[], 'Cloud_ID':[], 'Mcloud':[], 'Rcloud':[], 'Met
 
 df.to_csv(f'{config["output_dir"]}/lim_df.csv', index = False)
 
-creating_table(gal_number, cloud_list, df_basic, config["output_dir"])
+creating_table(cloud_list, df_basic, config["output_dir"])
 print("Slick run completed successfully")
