@@ -4,7 +4,7 @@ import numpy as np
 from datetime import datetime
 import pandas as pd
 from despotic import zonedcloud
-from despotic.chemistry import NL99_GC
+from despotic.chemistry import GOW
 from astropy import units as u
 from astropy import constants as constants
 
@@ -138,9 +138,9 @@ def submm_luminosity(INPUT, NZONES=25, ProfileType = 'Powerlaw',noClump = False)
     gmc.dust.alphaGD	   = 3.2e-34 * Metallicity * DMR	      # Dust-gas coupling coefficient, erg cm^3 K^-3/2
 
     gmc.addEmitter('c+',1.e-100*Metallicity)
-    gmc.addEmitter('c',2.e-4*Metallicity)
-    gmc.addEmitter('o', 4.e-4*Metallicity)
-    gmc.addEmitter('co',1.e-100*Metallicity) 
+    gmc.addEmitter('c',1.6e-4*Metallicity)
+    gmc.addEmitter('o', 3.2e-4*Metallicity)
+    gmc.addEmitter('co',1.e-100*Metallicity)
 
     gmc.TCMB = 2.73 * (1. + redshift)
     gmc.rad.TCMB = 2.73 * (1. + redshift)
@@ -167,7 +167,7 @@ def submm_luminosity(INPUT, NZONES=25, ProfileType = 'Powerlaw',noClump = False)
     H2_rates = []
     
     gmc.setVirial() #set the cloud to virial properties
-    gmc.setChemEq(network=NL99_GC, evolveTemp = 'iterateDust', verbose=True, info = {'xC': 2.e-4*Metallicity,'xO':4.e-4*Metallicity}, tol = 1.e-3)
+    gmc.setChemEq(network=GOW, evolveTemp = 'iterateDust', verbose=True, info = {'xC': 1.6e-4*Metallicity,'xO':3.2e-4*Metallicity,'xSi':1.7e-6*Metallicity}, tol = 1.e-3, maxTime = 1e20)
     
     #save the abundances for each zone
     for nz in range(NZONES):
