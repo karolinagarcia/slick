@@ -54,8 +54,13 @@ def create_basic_table(config):
         sfr_gas = yt_data["PartType0","StarFormationRate"][clouds_in_this_galaxy].in_units("Msun/yr")
 
         RadField_list = []
-        
-        DMR_list = []
+        Metallicity_val = cloud[5]
+        if Metallicity_val==0:
+            DMR = 0
+        else:
+            DGR = (10**(2.445*np.log10(Metallicity_val/0.0134)-2.029))    #equation 9, Qi Li+2019
+            DMR = DGR/(Metallicity_val*0.44)   #corrected DMR = dust mass/metal mass = dust mass/(metallicity*total mass). This is normalized to the MW DMR value of 0.44        
+        DMR_list = [DMR]*len(clouds_in_this_galaxy)
 
         for i in range(0,len(clouds_in_this_galaxy)):
         
@@ -76,19 +81,8 @@ def create_basic_table(config):
             
             RadField_val = (sfr_surface_density/solar_sfr_surface_density)*(beta_UV/solar_beta)
             RadField_list.append(RadField_val)
-            
-            Metallicity_val = Metallicity[i]
-            
-            if Metallicity_val==0:
-                DMR = 0
-            else:
-                DGR = (10**(2.445*np.log10(Metallicity_val*0.0196/0.0134)-2.029))    #equation 9, Qi Li+2019
-                DMR = DGR/(Metallicity_val*0.0196*0.44)   #corrected DMR = dust mass/metal mass = dust mass/(metallicity*total mass). This is normalized to the MW DMR value of 0.44            
-            DMR_list.append(DMR)
-        
-        DMR_list = np.array(DMR_list)
 
-        df_aux = pd.DataFrame({'g_Index':gal_index, 'c_Index':clouds_in_this_galaxy, 'c_Mass':Mcloud, 'c_Radius':Rcloud,                 'c_nDensity':n_density, 'c_Temperature':temp, 'c_Pressure':P, 'c_Metallicity':Metallicity, 'g_SFR':sfr_gal, 'c_SFR':sfr_gas, 'g_Redshift':redshift, 'g_Mass_Gas':Mgas_gal, 'g_Mass_H2':MH2_gal, 'g_Radius':R_gal, 'g_Metallicity':Metal_gal, 'c_RadField':RadField_list, 'c_DMR':DMR_list})
+        df_aux = pd.DataFrame({'g_Index':gal_index, 'c_Index':clouds_in_this_galaxy, 'c_Mass':Mcloud, 'c_Radius':Rcloud, 'c_nDensity':n_density, 'c_Temperature':temp, 'c_Pressure':P, 'c_Metallicity':Metallicity, 'g_SFR':sfr_gal, 'c_SFR':sfr_gas, 'g_Redshift':redshift, 'g_Mass_Gas':Mgas_gal, 'g_Mass_H2':MH2_gal, 'g_Radius':R_gal, 'g_Metallicity':Metal_gal, 'c_RadField':RadField_list, 'c_DMR':DMR_list})
         df = pd.concat([df, df_aux])
 
     df = df.reset_index(drop=True)
