@@ -1,5 +1,6 @@
 from sys import argv
 from os import mkdir
+from shutil import rmtree
 
 from create_basic_characteristics_table import create_basic_table
 from create_cloudspercore_list import create_cloudspercore_list
@@ -16,7 +17,16 @@ def main():
 
     config = parse_parameters(config_file)
     
-    #mkdir(config["output_dir"])
+    try:
+        mkdir(config["output_dir"])
+    except FileExistsError:
+        if config["overwrite"]:
+            rmtree(config["output_dir"])
+            mkdir(config["output_dir"])
+        else:
+            print("Output directory already present")
+            print("Either specify a new output directory or set the overwrite option.")
+            exit(1)
 
     # Creates table with basic characteristics for all the clouds
     if not config["skip_basictable"]:
