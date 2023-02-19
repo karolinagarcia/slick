@@ -53,8 +53,6 @@ def create_basic_table(config):
 
         sfr_gas = yt_data["PartType0","StarFormationRate"][clouds_in_this_galaxy].in_units("Msun/yr")
 
-        #print(coords_gas,gas_dust,gas_kd_tree,gas_tree_dist,gas_indexes,sfr_gas)
-        
         RadField_list = []
         Metallicity_val = cloud[5]
         if Metallicity_val==0:
