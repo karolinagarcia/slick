@@ -18,7 +18,7 @@ def create_cloudspercore_list(config):
 
     n_of_gals = len(galaxies_list)
     n_of_clouds = sum([len(galaxies_list[i][1]) for i in np.arange(n_of_gals)])
-    n_clouds_per_line = n_of_clouds/1000
+    n_clouds_per_line = 1000
 
     param_filename = f'{config["output_dir"]}/Clouds_per_Core_m{config["boxsize"]}_z_1_MS.txt'
     with open(param_filename, 'w') as f:
