@@ -3,7 +3,7 @@ cat > parameters.ini << ENDOFFILE
 mode=total
 
 [snap]
-boxsize=400
+boxsize=25
 ytfilename=/orange/narayanan/desika.narayanan/gizmo_runs/simba/m25n512/output/snapshot_305.hdf5
 caesarfilename=/orange/narayanan/desika.narayanan/gizmo_runs/simba/m25n512/output/Groups/caesar_0305_z0.000.hdf5
 
@@ -15,8 +15,10 @@ mem-per-cpu=8gb
 time=96:00:00
 
 [run]
+basictable_dir=    #insert where basic tables should go to
 output_dir=    #insert output directory here
-skip_run=False
+skip_lumcalc=False
+skip_basictable=False
 ENDOFFILE
 
 cat > run.sh << ENDOFFILE
