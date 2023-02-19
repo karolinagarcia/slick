@@ -16,20 +16,18 @@ def main():
 
     config = parse_parameters(config_file)
     
-    mkdir(config["output_dir"])
+    #mkdir(config["output_dir"])
 
     # Creates table with basic characteristics for all the clouds
-    create_basic_table(config)
+    if not config["skip_basictable"]:
+        create_basic_table(config)
 
-    # Creates table with basic characteristics for all the clouds (if mode='total'), or for a sample of them (mode = 'randomize')
-    param_filename, max_lines = create_cloudspercore_list(config)
+    if not config["skip_lumcalc"]:
+        # Creates table with basic characteristics for all the clouds (if mode='total'), or for a sample of them (mode = 'randomize')
+        param_filename, max_lines = create_cloudspercore_list(config)
 
-    # Creates slick_run_jobscript.sh
-    create_jobscript(param_filename, max_lines, config_file, config["sbatch"])
-
-    if config["skip_run"]:
-        # non-0 exit code signals to not do the slick run step
-        exit(1)
+        # Creates slick_run_jobscript.sh
+        create_jobscript(param_filename, max_lines, config_file, config["sbatch"])
 
 if __name__ == "__main__":
     main()

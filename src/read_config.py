@@ -17,5 +17,7 @@ def parse_parameters(config_file):
     except NoSectionError:
         config_result["sbatch"] = {}
     config_result["output_dir"] = config.get("run", "output_dir", fallback="Output_Files")
-    config_result["skip_run"] = config.getboolean("run", "skip_run", fallback=False)
+    config_result["basictable_dir"] = config.get("run", "basictable_dir", fallback="Output_Files")
+    config_result["skip_lumcalc"] = config.getboolean("run", "skip_lumcalc", fallback=False)
+    config_result["skip_basictable"] = config.getboolean("run", "skip_basictable", fallback=False)
     return config_result
