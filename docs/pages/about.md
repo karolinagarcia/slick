@@ -13,7 +13,7 @@ This algorithm was designed to be used on [SIMBA](http://simba.roe.ac.uk/) simul
 *slick* was developed by **[Karolina Garcia](https://karolinagarcia.github.io/)** in collaboration with:
 - Desika Narayanan
 - Gergö Popping
+- Anirudh Ravishankar
 - Sagan Sutherland
 - Thomas Greve
 - Romeel Davé
-- Anirudh Ravishankar
