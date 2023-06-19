@@ -11,8 +11,10 @@ def create_cloudspercore_list(config):
     obj = caesar.load(config["caesarfilename"])
 
     if config["mode"] == 'randomize':
-        galaxies_list = [(gal.GroupID,gal.glist) for gal in obj.galaxies if (gal.masses['total']>config["min_mass"] and gal.masses['total']<=config["max_mass"])]
-        galaxies_list = random.sample(galaxies_list, config["n_galaxies_sample"])
+        galaxies_list = [(gal.GroupID,gal.glist) for gal in obj.galaxies if (gal.masses['total']>eval(config["min_mass"]) and gal.masses['total']<=eval(config["max_mass"]))]
+        galaxies_list = random.sample(galaxies_list, int(config["n_galaxies_sample"]))
+    #elif config["mode"] == 'centergal':
+        #galaxies_list = [(gal.GroupID,gal.glist) for gal in obj.galaxies][0]
     else:
         galaxies_list = [(gal.GroupID,gal.glist) for gal in obj.galaxies]
 
@@ -20,7 +22,7 @@ def create_cloudspercore_list(config):
     n_of_clouds = sum([len(galaxies_list[i][1]) for i in np.arange(n_of_gals)])
     n_clouds_per_line = 1000
 
-    param_filename = f'{config["output_dir"]}/Clouds_per_Core_m{config["boxsize"]}_z_1_MS.txt'
+    param_filename = f'{config["output_dir"]}/Clouds_per_Core.txt'
     with open(param_filename, 'w') as f:
         num_lines = 1
         gal_clouds = np.concatenate(np.array([gal[1] for gal in galaxies_list],dtype=object))
