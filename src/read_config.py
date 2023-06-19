@@ -8,7 +8,7 @@ def parse_parameters(config_file):
     config_result["ytfilename"] = config['snap']['ytfilename']
     config_result["caesarfilename"] = config['snap']['caesarfilename']
     config_result["mode"] = config['sample']['mode']
-    if config_result["mode"] == "randomized":
+    if config_result["mode"] == "randomize":
         config_result["n_galaxies_sample"] = config['sample']['n_galaxies_sample']
         config_result["min_mass"] = config['sample']['min_mass']
         config_result["max_mass"] = config['sample']['max_mass']
