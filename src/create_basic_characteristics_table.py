@@ -12,7 +12,7 @@ def create_basic_table(config):
     yt_data = yt_snap.all_data()
     obj = caesar.load(config["caesarfilename"])
 
-    clouds_in_each_galaxy = [(gal.GroupID,gal.glist,gal.masses['gas'].in_units('Msun').value,gal.masses['H2'].in_units('Msun').value,gal.radii['baryon_half_mass'].in_units('pc').value,gal.metallicities['mass_weighted'].value) for gal in obj.galaxies]
+    clouds_in_each_galaxy = [(gal.GroupID,gal.glist,gal.masses['gas'].in_units('Msun').value,gal.masses['H2'].in_units('Msun').value,gal.radii['gas_half_mass'].in_units('pc').value,gal.metallicities['mass_weighted'].value) for gal in obj.galaxies]
 
     kB = 1.3807 * 10**(-16) * u.cm * u.cm * u.g / (u.s * u.s * u.K)
     mH = 1.6733 * 1e-24 * u.g
@@ -92,5 +92,6 @@ def create_basic_table(config):
     df['g_Index'] = df['g_Index'].astype('int')
     df['c_Index'] = df['c_Index'].astype('int')
 
-    basic_filename = f'../{config["basictable_dir"]}/Basic_Characteristics_m{config["boxsize"]}_z={round(yt_snap.parameters["Redshift"],3)}.csv'
+    #basic_filename = f'{config["basictable_dir"]}/Basic_Characteristics_m{config["boxsize"]}_z={round(yt_snap.parameters["Redshift"],3)}.csv'
+    basic_filename = f'{config["basictable_dir"]}/Basic_Characteristics_m{config["boxsize"]}_run={str(config["caesarfilename"])[-41:-39]}.csv'
     df.to_csv(basic_filename, index = False)
