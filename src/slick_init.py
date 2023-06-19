@@ -1,5 +1,6 @@
 from sys import argv
 from os import mkdir
+import pandas as pd
 from shutil import rmtree
 
 from create_basic_characteristics_table import create_basic_table
@@ -38,6 +39,10 @@ def main():
 
         # Creates slick_run_jobscript.sh
         create_jobscript(param_filename, max_lines, config_file, config["sbatch"])
+
+        # Creates the lim file with the header
+        df = pd.DataFrame({'Galaxy_ID':[], 'Cloud_ID':[], 'Mcloud':[], 'Rcloud':[], 'c_Pressure':[], 'Metallicity':[], 'RadField':[], 'c_DMR':[], 'redshift':[], 'H2_lcii':[], 'CO10':[], 'CO21':[], 'CO32':[], 'CO43':[], 'CO54':[], 'CO10_intTB':[], 'CO21_intTB':[], 'CO32_intTB':[], 'CO43_intTB':[], 'CO54_intTB':[], 'CI10':[], 'CI21':[], 'CO65':[], 'CO76':[], 'CO87':[], 'CO98':[], 'CO65_intTB':[], 'CO76_intTB':[], 'CO87_intTB':[], 'CO98_intTB':[], 'OI1':[], 'OI2':[], 'OI3':[], 'fH2':[], 'fH':[], 'fHp':[], 'gas_temp':[], 'dust_temp':[], 'n_dens':[],'col_dens':[], 'Mol_gas':[], 'CO10_areal_TB':[], 'time':[]})
+        df.to_csv(f'{config["output_dir"]}/lim_df.csv', index = False)
 
 if __name__ == "__main__":
     main()
