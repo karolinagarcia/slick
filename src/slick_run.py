@@ -18,12 +18,7 @@ with open(cloud_info_file, "r") as f:
 
 config = parse_parameters(args.parameters)
 
-# Creates final luminosity table
 df_basic = pd.read_csv(glob.glob(f'{config["basictable_dir"]}/Basic*')[0])
-
-df = pd.DataFrame({'Galaxy_ID':[], 'Cloud_ID':[], 'Mcloud':[], 'Rcloud':[], 'Pressure':[], 'Metallicity':[], 'RadField':[], 'DMR':[], 'redshift':[], 'H2_lcii':[], 'CO10':[], 'CO21':[], 'CO32':[], 'CO43':[], 'CO54':[], 'CO10_intTB':[], 'CO21_intTB':[], 'CO32_intTB':[], 'CO43_intTB':[], 'CO54_intTB':[], 'CI10':[], 'CI21':[], 'CO65':[], 'CO76':[], 'CO87':[], 'CO98':[], 'CO65_intTB':[], 'CO76_intTB':[], 'CO87_intTB':[], 'CO98_intTB':[], 'OI1':[], 'OI2':[], 'OI3':[], 'fH2':[]})
-
-df.to_csv(f'{config["output_dir"]}/lim_df.csv', index = False)
 
 creating_table(cloud_list, df_basic, config["output_dir"])
 print("Slick run completed successfully")
