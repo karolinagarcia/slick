@@ -20,4 +20,5 @@ def parse_parameters(config_file):
     config_result["basictable_dir"] = config.get("run", "basictable_dir", fallback="Output_Files")
     config_result["skip_lumcalc"] = config.getboolean("run", "skip_lumcalc", fallback=False)
     config_result["skip_basictable"] = config.getboolean("run", "skip_basictable", fallback=False)
+    config_result["overwrite"] = config.getboolean("run", "overwrite", fallback=False)
     return config_result
