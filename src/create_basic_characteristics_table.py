@@ -32,7 +32,7 @@ def create_basic_table(config):
         Mgas_gal = [cloud[2]]*len(clouds_in_this_galaxy)    #mass of gas in the galaxy indexed by g duplicated to a list of len(clouds_in_this_galaxy) elements
         MH2_gal = [cloud[3]]*len(clouds_in_this_galaxy)
         R_gal = [cloud[4]]*len(clouds_in_this_galaxy)
-        Metal_gal = [cloud[5]]*len(clouds_in_this_galaxy)
+        Metal_gal = [cloud[5]/0.0196]*len(clouds_in_this_galaxy)
 
         Mcloud = yt_data['PartType0','Masses'][clouds_in_this_galaxy].in_units('Msun')    #making an array of each cloud's masses indexed according to glist
         n_density = yt_data['PartType0', 'Density'][clouds_in_this_galaxy].in_units('g/cm**3')/mH    #making an array of each cloud's number densities
@@ -92,6 +92,6 @@ def create_basic_table(config):
     df['g_Index'] = df['g_Index'].astype('int')
     df['c_Index'] = df['c_Index'].astype('int')
 
-    #basic_filename = f'{config["basictable_dir"]}/Basic_Characteristics_m{config["boxsize"]}_z={round(yt_snap.parameters["Redshift"],3)}.csv'
-    basic_filename = f'{config["basictable_dir"]}/Basic_Characteristics_m{config["boxsize"]}_run={str(config["caesarfilename"])[-41:-39]}.csv'
+    basic_filename = f'{config["basictable_dir"]}/Basic_Characteristics_m{config["boxsize"]}_z={round(yt_snap.parameters["Redshift"],3)}.csv'
+    #basic_filename = f'{config["basictable_dir"]}/Basic_Characteristics_m{config["boxsize"]}_run={str(config["caesarfilename"])[-41:-39]}.csv'
     df.to_csv(basic_filename, index = False)
