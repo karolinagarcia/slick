@@ -4,6 +4,7 @@ import caesar
 import yt
 from tqdm import tqdm
 import random
+import glob
 random.seed(10)
 
 def create_cloudspercore_list(config):
@@ -26,6 +27,13 @@ def create_cloudspercore_list(config):
     with open(param_filename, 'w') as f:
         num_lines = 1
         gal_clouds = np.concatenate(np.array([gal[1] for gal in galaxies_list],dtype=object))
+        try:
+            pd_clouds_with_lum = pd.read_csv(f'{config["output_dir"]}/lim_df.csv')
+            ids_clouds_with_lum = pd_clouds_with_lum['Cloud_ID']
+            all_clouds = pd.read_csv(glob.glob(f'{config["basictable_dir"]}/Basic*')[0])
+            all_ids = all_clouds['c_Index']
+            gal_clouds = np.array(all_ids[~all_ids.isin(ids_clouds_with_lum)])
+        except: pass
         for (i,), cloud in np.ndenumerate(gal_clouds.flatten()):
             if i % n_clouds_per_line == 0:
                 if i != 0:
