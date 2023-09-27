@@ -6,13 +6,13 @@ def create_jobscript(param_filename, max_lines, param_file, SBATCH_args={}):
         "tasks-per-node": "1",
         "cpus-per-task": "1",
         "mem-per-cpu": "8gb",
-        "time": "24:00:00",
+        "time": "48:00:00",
         "qos": "narayanan-b",
         "output": "/dev/null"
     }
     # NOTE: this makes no guarantees about the order in which SBATCH args are laid out
     full_SBATCH_args = {**default_SBATCH_args, **SBATCH_args}
-    full_SBATCH_args["array"] = f"1-{max_lines}"
+    full_SBATCH_args["array"] = f"1-{max_lines}%92"
 
     with open("slick_run_jobscript.sh", "w") as f:
         f.write("#!/bin/bash\n")
