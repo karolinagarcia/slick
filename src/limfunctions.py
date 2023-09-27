@@ -167,6 +167,7 @@ def submm_luminosity(INPUT, NZONES=25, ProfileType = 'Powerlaw',noClump = False)
     H2_rates = []
     
     gmc.setVirial() #set the cloud to virial properties
+    converged = gmc.setChemEqForSlick(network=GOW, evolveTemp = 'iterateDust', verbose=True, info = {'xC': 1.6e-4*Metallicity,'xO':3.2e-4*Metallicity,'xSi':1.7e-6*Metallicity}, tol = 1.e-3, maxTime = 1e20)
     gmc.setChemEq(network=GOW, evolveTemp = 'iterateDust', verbose=True, info = {'xC': 1.6e-4*Metallicity,'xO':3.2e-4*Metallicity,'xSi':1.7e-6*Metallicity}, tol = 1.e-3, maxTime = 1e20)
     
     #save the abundances for each zone
@@ -189,6 +190,11 @@ def submm_luminosity(INPUT, NZONES=25, ProfileType = 'Powerlaw',noClump = False)
     fH2 = np.sum(gmc.mass() * (2. * gmc_xH2_zones))/np.sum(gmc.mass())   #Note that mass in zonedcloud is already only the hydrogen atoms
     fH = np.sum(gmc.mass() * (gmc_xH_zones))/np.sum(gmc.mass())
     fHp = np.sum(gmc.mass() * (gmc_xHp_zones))/np.sum(gmc.mass())
+    fCO = np.sum(gmc.mass() * (gmc_xCO_zones))/np.sum(gmc.mass())
+    fCp = np.sum(gmc.mass() * (gmc_xCp_zones))/np.sum(gmc.mass())
+    fC = np.sum(gmc.mass() * (gmc_xC_zones))/np.sum(gmc.mass())
+    fO = np.sum(gmc.mass() * (gmc_xO_zones))/np.sum(gmc.mass())
+    fOHx = np.sum(gmc.mass() * (gmc_xOHx_zones))/np.sum(gmc.mass())
 
     #Number of H nuclei
     muH = np.array([c.muH for c in gmc.comp])
@@ -249,13 +255,14 @@ def submm_luminosity(INPUT, NZONES=25, ProfileType = 'Powerlaw',noClump = False)
 
     CO10_Lsun = CO10.value/3.826e33    #converting ergs/s to Lsun units
     CO10_areal_TB = CO10_Lsun*1e11/(3*(115.271203**3))    #using Carilli and Walter 2013's equation on pg 9 to convert source luminosity in Lsun to areal integrated source brightness temperature in units of K km/s pc**2. This is later summed to get total CO10_areal_TB of the galaxy. 115.271203 GHz is the rest frame frequency of CO10 emission.
-        
-    return np.array([Mcloud.value, Rcloud.value, Metallicity, RadField, redshift,H2_lcii.value[0],CO10.value, CO21.value, CO32.value, CO43.value, CO54.value, CO10_intTB, CO21_intTB, CO32_intTB, CO43_intTB, CO54_intTB, CI10.value, CI21.value, CO65.value, CO76.value, CO87.value, CO98.value, CO65_intTB, CO76_intTB, CO87_intTB, CO98_intTB, OI1.value, OI2.value, OI3.value, fH2, fH, fHp, gas_temp, dust_temp, n_dens, col_dens, Mol_gas.value, CO10_areal_TB])
+
+    return np.array([Mcloud.value, Rcloud.value, Metallicity, RadField, redshift,H2_lcii.value[0],CO10.value, CO21.value, CO32.value, CO43.value, CO54.value, CO10_intTB, CO21_intTB, CO32_intTB, CO43_intTB, CO54_intTB, CI10.value, CI21.value, CO65.value, CO76.value, CO87.value, CO98.value, CO65_intTB, CO76_intTB, CO87_intTB, CO98_intTB, OI1.value, OI2.value, OI3.value, fH2, fH, fHp, fCO, fCp, fC, fO, fOHx, gas_temp, dust_temp, n_dens, col_dens, Mol_gas.value, CO10_areal_TB, converged])
 
 def creating_table(cloud_list, df_basic, output_dir):
-    
-    df = pd.DataFrame({'Galaxy_ID':[], 'Cloud_ID':[], 'Mcloud':[], 'Rcloud':[], 'c_Pressure':[], 'Metallicity':[], 'RadField':[], 'c_DMR':[], 'redshift':[], 'H2_lcii':[], 'CO10':[], 'CO21':[], 'CO32':[], 'CO43':[], 'CO54':[], 'CO10_intTB':[], 'CO21_intTB':[], 'CO32_intTB':[], 'CO43_intTB':[], 'CO54_intTB':[], 'CI10':[], 'CI21':[], 'CO65':[], 'CO76':[], 'CO87':[], 'CO98':[], 'CO65_intTB':[], 'CO76_intTB':[], 'CO87_intTB':[], 'CO98_intTB':[], 'OI1':[], 'OI2':[], 'OI3':[], 'fH2':[], 'fH':[], 'fHp':[], 'gas_temp':[], 'dust_temp':[], 'n_dens':[],'col_dens':[], 'Mol_gas':[], 'CO10_areal_TB':[], 'time':[]})
 
+    df = pd.DataFrame({'Galaxy_ID':[], 'Cloud_ID':[], 'Mcloud':[], 'Rcloud':[], 'Pressure':[], 'Metallicity':[], 'RadField':[], 'DMR':[], 'Redshift':[], 'H2_lcii':[], 'CO10':[], 'CO21':[], 'CO32':[], 'CO43':[], 'CO54':[], 'CO10_intTB':[], 'CO21_intTB':[], 'CO32_intTB':[], 'CO43_intTB':[], 'CO54_intTB':[], 'CI10':[], 'CI21':[], 'CO65':[], 'CO76':[], 'CO87':[], 'CO98':[], 'CO65_intTB':[], 'CO76_intTB':[], 'CO87_intTB':[], 'CO98_intTB':[], 'OI1':[], 'OI2':[], 'OI3':[], 'fH2':[], 'fH':[], 'fHp':[], 'fCO':[], 'fCp':[], 'fC':[], 'fO':[], 'fOHx':[], 'gas_temp':[], 'dust_temp':[], 'n_dens':[],'col_dens':[], 'Mol_gas':[], 'CO10_areal_TB':[], 'Time':[], 'NZONES':[], 'Zones_Converged':[]})
+    UV_df = pd.read_csv("UV_background.csv")    #UV_background is a simulated UV background radiation field made by Diemer et al. 2018 & Faucher-Giguere et al. 2009
+    
     for c in cloud_list:
         
         Mcloud = float(df_basic['c_Mass'][df_basic['c_Index']==c])
@@ -265,29 +272,40 @@ def creating_table(cloud_list, df_basic, output_dir):
         RadField = float(df_basic['c_RadField'][df_basic['c_Index']==c])
         redshift = float(df_basic['g_Redshift'][df_basic['c_Index']==c])
         DMR = float(df_basic['c_DMR'][df_basic['c_Index']==c])
+
+        #interpolating the redshift-dependent UV background to get a floor RadField in cases when it is zero
+        if RadField==0 or RadField==-99:
+            RadField = round(np.interp(redshift,np.array(UV_df["z"]),np.array(UV_df["UV"])),6)
         
         gal_id = df_basic['g_Index'][df_basic['c_Index']==c]
 
         print('>Radius: '+str(Rcloud)+'\n>Mcloud: '+str(Mcloud)+'\n>Metallicity: '+str(Metallicity)+'\n>RadField: '+str(RadField))
         
         t1 = datetime.now()
-        
+
+        n_zones = 16
+        #n_zones_2 = 32
+
         try:
-            out = submm_luminosity([Mcloud,Rcloud,Metallicity,RadField,redshift,DMR],NZONES=16)
+            out = submm_luminosity([Mcloud,Rcloud,Metallicity,RadField,redshift,DMR],NZONES=n_zones)
+            #out2 = submm_luminosity([Mcloud,Rcloud,Metallicity,RadField,redshift,DMR],NZONES=n_zones_2)
             t2 = datetime.now()
             time = (t2-t1).total_seconds()
-            df_aux = pd.DataFrame({'Galaxy_ID':int(gal_id), 'Cloud_ID':int(c), 'Mcloud':out[0], 'Rcloud':out[1], 'c_Pressure':Pressure, 'Metallicity':out[2], 'RadField':out[3], 'c_DMR':DMR, 'redshift':out[4], 'H2_lcii':out[5], 'CO10':out[6], 'CO21':out[7], 'CO32':out[8], 'CO43':out[9], 'CO54':out[10], 'CO10_intTB':out[11], 'CO21_intTB':out[12], 'CO32_intTB':out[13], 'CO43_intTB':out[14], 'CO54_intTB':out[15], 'CI10':out[16], 'CI21':out[17], 'CO65':out[18], 'CO76':out[19], 'CO87':out[20], 'CO98':out[21], 'CO65_intTB':out[22], 'CO76_intTB':out[23], 'CO87_intTB':out[24], 'CO98_intTB':out[25], 'OI1':out[26], 'OI2':out[27], 'OI3':out[28], 'fH2':out[29], 'fH':out[30], 'fHp':out[31], 'gas_temp':out[32], 'dust_temp':out[33], 'n_dens':out[34], 'col_dens':out[35], 'Mol_gas':out[36], 'CO10_areal_TB':out[37], 'time':time},index=[0])
-            df = pd.concat([df,df_aux])
+            df_aux = pd.DataFrame({'Galaxy_ID':int(gal_id), 'Cloud_ID':int(c), 'Mcloud':out[0], 'Rcloud':out[1], 'Pressure':Pressure, 'Metallicity':out[2], 'RadField':out[3], 'DMR':DMR, 'Redshift':out[4], 'H2_lcii':out[5], 'CO10':out[6], 'CO21':out[7], 'CO32':out[8], 'CO43':out[9], 'CO54':out[10], 'CO10_intTB':out[11], 'CO21_intTB':out[12], 'CO32_intTB':out[13], 'CO43_intTB':out[14], 'CO54_intTB':out[15], 'CI10':out[16], 'CI21':out[17], 'CO65':out[18], 'CO76':out[19], 'CO87':out[20], 'CO98':out[21], 'CO65_intTB':out[22], 'CO76_intTB':out[23], 'CO87_intTB':out[24], 'CO98_intTB':out[25], 'OI1':out[26], 'OI2':out[27], 'OI3':out[28], 'fH2':out[29], 'fH':out[30], 'fHp':out[31], 'fCO':out[32], 'fCp':out[33], 'fC':out[34], 'fO':out[35], 'fOHx':out[36], 'gas_temp':out[37], 'dust_temp':out[38], 'n_dens':out[39], 'col_dens':out[40], 'Mol_gas':out[41], 'CO10_areal_TB':out[42], 'Time':time, 'NZONES':n_zones, 'Zones_Converged':np.sum(out[43])},index=[0])
+            #df_aux_2 = pd.DataFrame({'Galaxy_ID':int(gal_id), 'Cloud_ID':int(c), 'Mcloud':out2[0], 'Rcloud':out2[1], 'Pressure':Pressure, 'Metallicity':out2[2], 'RadField':out2[3], 'DMR':DMR, 'Redshift':out2[4], 'H2_lcii':out2[5], 'CO10':out2[6], 'CO21':out2[7], 'CO32':out2[8], 'CO43':out2[9], 'CO54':out2[10], 'CO10_intTB':out2[11], 'CO21_intTB':out2[12], 'CO32_intTB':out2[13], 'CO43_intTB':out2[14], 'CO54_intTB':out2[15], 'CI10':out2[16], 'CI21':out2[17], 'CO65':out2[18], 'CO76':out2[19], 'CO87':out2[20], 'CO98':out2[21], 'CO65_intTB':out2[22], 'CO76_intTB':out2[23], 'CO87_intTB':out2[24], 'CO98_intTB':out2[25], 'OI1':out2[26], 'OI2':out2[27], 'OI3':out2[28], 'fH2':out2[29], 'fH':out2[30], 'fHp':out2[31], 'fCO':out2[32], 'fCp':out2[33], 'fC':out2[34], 'fO':out2[35], 'fOHx':out2[36], 'gas_temp':out2[37], 'dust_temp':out2[38], 'n_dens':out2[39], 'col_dens':out2[40], 'Mol_gas':out2[41], 'CO10_areal_TB':out2[42], 'Time':time, 'NZONES':n_zones_2, 'Zones_Converged':np.sum(out2[43])},index=[0])
+            df = pd.concat([df,df_aux],ignore_index=True)
+            #df = pd.concat([df,df_aux,df_aux_2],ignore_index=True)
         except:
             t2 = datetime.now()
             time = (t2-t1).total_seconds()
             gas_temp,dust_temp,n_dens,col_dens = compute_temp_dens(Mcloud*u.Msun,Rcloud*u.pc,Tg=-99*np.ones(16),Td=-99*np.ones(16),NZONES=16)
             print('despoticError, moving on \n despoticError, moving on \n despoticError, moving on \n despoticError, moving on \n despoticError, moving on \n despoticError, moving on \n')
-            df_aux = pd.DataFrame({'Galaxy_ID':int(gal_id), 'Cloud_ID':int(c), 'Mcloud':Mcloud, 'Rcloud':Rcloud, 'Pressure':Pressure, 'Metallicity':Metallicity, 'RadField':RadField, 'DMR':DMR, 'redshift':redshift, 'H2_lcii':-99, 'CO10':-99, 'CO21':-99, 'CO32':-99, 'CO43':-99, 'CO54':-99, 'CO10_intTB':-99, 'CO21_intTB':-99, 'CO32_intTB':-99, 'CO43_intTB':-99, 'CO54_intTB':-99, 'CI10':-99, 'CI21':-99, 'CO65':-99, 'CO76':-99, 'CO87':-99, 'CO98':-99, 'CO65_intTB':-99, 'CO76_intTB':-99, 'CO87_intTB':-99, 'CO98_intTB':-99, 'OI1':-99, 'OI2':-99, 'OI3':-99, 'fH2':-99, 'fH':-99, 'fHp':-99, 'gas_temp':gas_temp, 'dust_temp':dust_temp, 'n_dens':n_dens, 'col_dens':col_dens, 'Mol_gas':-99, 'CO10_areal_TB':-99, 'time':time},index=[1])
-            df = pd.concat([df,df_aux])
+            df_aux = pd.DataFrame({'Galaxy_ID':int(gal_id), 'Cloud_ID':int(c), 'Mcloud':Mcloud, 'Rcloud':Rcloud, 'Pressure':Pressure, 'Metallicity':Metallicity, 'RadField':RadField, 'DMR':DMR, 'Redshift':redshift, 'H2_lcii':-99, 'CO10':-99, 'CO21':-99, 'CO32':-99, 'CO43':-99, 'CO54':-99, 'CO10_intTB':-99, 'CO21_intTB':-99, 'CO32_intTB':-99, 'CO43_intTB':-99, 'CO54_intTB':-99, 'CI10':-99, 'CI21':-99, 'CO65':-99, 'CO76':-99, 'CO87':-99, 'CO98':-99, 'CO65_intTB':-99, 'CO76_intTB':-99, 'CO87_intTB':-99, 'CO98_intTB':-99, 'OI1':-99, 'OI2':-99, 'OI3':-99, 'fH2':-99, 'fH':-99, 'fHp':-99, 'fCO':-99, 'fCp':-99, 'fC':-99, 'fO':-99, 'fOHx':-99, 'gas_temp':gas_temp, 'dust_temp':dust_temp, 'n_dens':n_dens, 'col_dens':col_dens, 'Mol_gas':-99, 'CO10_areal_TB':-99, 'Time':time, 'NZONES':0, 'Zones_Converged':0},index=[0])
+            df = pd.concat([df,df_aux],ignore_index=True)
             pass
 
         new_dtypes = {'Galaxy_ID': int, 'Cloud_ID': int}
         df = df.astype(new_dtypes)
 
     df.to_csv(f'{output_dir}/lim_df.csv', index = False, mode='a', header=False)
+
