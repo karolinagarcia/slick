@@ -1,4 +1,4 @@
-# SLICK -- Suite of Line Intensity Calculations (by Karol ;)
+# SLICK -- Scalable Line Intensity Computation Kit
 
 **_slick_** is a tool to calculate CO, [CI] and [CII] line intensities from extremely large datasets of clouds/galaxies in hydrodynamical simulations. It runs radiative transfer equations on each single particle of the simulation, and outputs a table with all clouds' and galaxies' luminosities for all redshifts of interest.
 
@@ -13,10 +13,9 @@ This algorithm was designed to be used on [SIMBA](http://simba.roe.ac.uk/) simul
 *slick* was developed by **[Karolina Garcia](https://karolinagarcia.github.io/)** in collaboration with:
 - Desika Narayanan
 - Gergö Popping
-- Sagan Sutherland
 - Anirudh Ravishankar
-- Thomas Greve
-- Romeel Davé
+- Sagan Sutherland
+- Melanie Kaasinen
 
 <br>
 
