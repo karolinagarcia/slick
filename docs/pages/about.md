@@ -15,5 +15,4 @@ This algorithm was designed to be used on [SIMBA](http://simba.roe.ac.uk/) simul
 - Gergö Popping
 - Anirudh Ravishankar
 - Sagan Sutherland
-- Thomas Greve
-- Romeel Davé
+- Melanie Kaasinen
