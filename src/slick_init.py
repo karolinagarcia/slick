@@ -37,10 +37,11 @@ def main():
 
     if not config["skip_lumcalc"]:
         # Creates table with basic characteristics for all the clouds (if mode='total'), or for a sample of them (mode = 'randomize')
-        param_filename, max_lines = create_cloudspercore_list(config)
+        n_clouds_per_core = config["n_clouds_per_core"]
+        param_filename, max_lines = create_cloudspercore_list(config,n_clouds_per_core)
 
         # Creates slick_run_jobscript.sh
-        create_jobscript(param_filename, max_lines, config_file, config["sbatch"])
+        create_jobscript(param_filename, max_lines, int(config["max_cores"]), config_file, config["sbatch"])
 
         # Creates the lim file with the header
         try:

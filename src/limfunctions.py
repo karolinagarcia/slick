@@ -3,8 +3,14 @@
 import numpy as np
 from datetime import datetime
 import pandas as pd
+
+import sys
+sys.path.insert(1, '/home/karolina.garcia/despotic')
+import despotic
 from despotic import zonedcloud
 from despotic.chemistry import GOW
+
+sys.path.insert(1, '/blue/narayanan/karolina.garcia/github/slick/src')
 from astropy import units as u
 from astropy import constants as constants
 
@@ -122,7 +128,7 @@ def submm_luminosity(INPUT, NZONES=25, ProfileType = 'Powerlaw',noClump = False)
     gmc.rad.TradDust = 10.
     gmc.ionRate = 1.e-17*RadField
     gmc.rad.ionRate = 1.e-17*RadField
-    gmc.chi = RadField 
+    gmc.chi = RadField
     gmc.rad.chi = RadField
 
     gmc.sigmaD10   = 2.0e-25  * Metallicity * DMR       # Cross section to 10K thermal radiation, cm^2 H^-1
@@ -169,7 +175,9 @@ def submm_luminosity(INPUT, NZONES=25, ProfileType = 'Powerlaw',noClump = False)
     gmc.setVirial() #set the cloud to virial properties
     converged = gmc.setChemEqForSlick(network=GOW, evolveTemp = 'iterateDust', verbose=True, info = {'xC': 1.6e-4*Metallicity,'xO':3.2e-4*Metallicity,'xSi':1.7e-6*Metallicity}, tol = 1.e-3, maxTime = 1e20)
     gmc.setChemEq(network=GOW, evolveTemp = 'iterateDust', verbose=True, info = {'xC': 1.6e-4*Metallicity,'xO':3.2e-4*Metallicity,'xSi':1.7e-6*Metallicity}, tol = 1.e-3, maxTime = 1e20)
-    
+    print("zones converged?")
+    print(converged)
+
     #save the abundances for each zone
     for nz in range(NZONES):
         gmc_xH_zones[nz] = gmc.chemabundances_zone[nz]['H']
@@ -255,16 +263,19 @@ def submm_luminosity(INPUT, NZONES=25, ProfileType = 'Powerlaw',noClump = False)
 
     CO10_Lsun = CO10.value/3.826e33    #converting ergs/s to Lsun units
     CO10_areal_TB = CO10_Lsun*1e11/(3*(115.271203**3))    #using Carilli and Walter 2013's equation on pg 9 to convert source luminosity in Lsun to areal integrated source brightness temperature in units of K km/s pc**2. This is later summed to get total CO10_areal_TB of the galaxy. 115.271203 GHz is the rest frame frequency of CO10 emission.
-
+        
     return np.array([Mcloud.value, Rcloud.value, Metallicity, RadField, redshift,H2_lcii.value[0],CO10.value, CO21.value, CO32.value, CO43.value, CO54.value, CO10_intTB, CO21_intTB, CO32_intTB, CO43_intTB, CO54_intTB, CI10.value, CI21.value, CO65.value, CO76.value, CO87.value, CO98.value, CO65_intTB, CO76_intTB, CO87_intTB, CO98_intTB, OI1.value, OI2.value, OI3.value, fH2, fH, fHp, fCO, fCp, fC, fO, fOHx, gas_temp, dust_temp, n_dens, col_dens, Mol_gas.value, CO10_areal_TB, converged])
 
-def creating_table(cloud_list, df_basic, output_dir):
-
-    df = pd.DataFrame({'Galaxy_ID':[], 'Cloud_ID':[], 'Mcloud':[], 'Rcloud':[], 'Pressure':[], 'Metallicity':[], 'RadField':[], 'DMR':[], 'Redshift':[], 'H2_lcii':[], 'CO10':[], 'CO21':[], 'CO32':[], 'CO43':[], 'CO54':[], 'CO10_intTB':[], 'CO21_intTB':[], 'CO32_intTB':[], 'CO43_intTB':[], 'CO54_intTB':[], 'CI10':[], 'CI21':[], 'CO65':[], 'CO76':[], 'CO87':[], 'CO98':[], 'CO65_intTB':[], 'CO76_intTB':[], 'CO87_intTB':[], 'CO98_intTB':[], 'OI1':[], 'OI2':[], 'OI3':[], 'fH2':[], 'fH':[], 'fHp':[], 'fCO':[], 'fCp':[], 'fC':[], 'fO':[], 'fOHx':[], 'gas_temp':[], 'dust_temp':[], 'n_dens':[],'col_dens':[], 'Mol_gas':[], 'CO10_areal_TB':[], 'Time':[], 'NZONES':[], 'Zones_Converged':[]})
-    UV_df = pd.read_csv("UV_background.csv")    #UV_background is a simulated UV background radiation field made by Diemer et al. 2018 & Faucher-Giguere et al. 2009
+def creating_table(cloud_list, df_basic, output_dir, n_zones):
     
+    df = pd.DataFrame({'Galaxy_ID':[], 'Cloud_ID':[], 'Mcloud':[], 'Rcloud':[], 'Pressure':[], 'Metallicity':[], 'RadField':[], 'DMR':[], 'Redshift':[], 'H2_lcii':[], 'CO10':[], 'CO21':[], 'CO32':[], 'CO43':[], 'CO54':[], 'CO10_intTB':[], 'CO21_intTB':[], 'CO32_intTB':[], 'CO43_intTB':[], 'CO54_intTB':[], 'CI10':[], 'CI21':[], 'CO65':[], 'CO76':[], 'CO87':[], 'CO98':[], 'CO65_intTB':[], 'CO76_intTB':[], 'CO87_intTB':[], 'CO98_intTB':[], 'OI1':[], 'OI2':[], 'OI3':[], 'fH2':[], 'fH':[], 'fHp':[], 'fCO':[], 'fCp':[], 'fC':[], 'fO':[], 'fOHx':[], 'gas_temp':[], 'dust_temp':[], 'n_dens':[],'col_dens':[], 'Mol_gas':[], 'CO10_areal_TB':[], 'Time':[], 'NZONES':[], 'Zones_Converged':[]})
+
+    UV_df = pd.read_csv("data/UV_background.csv")    #UV_background is a simulated UV background radiation field made by Diemer et al. 2018 & Faucher-Giguere et al. 2009
+
     for c in cloud_list:
         
+        print('Calculating for cloud '+str(c))
+
         Mcloud = float(df_basic['c_Mass'][df_basic['c_Index']==c])
         Rcloud = float(df_basic['c_Radius'][df_basic['c_Index']==c])
         Metallicity = float(df_basic['c_Metallicity'][df_basic['c_Index']==c])
@@ -282,9 +293,6 @@ def creating_table(cloud_list, df_basic, output_dir):
         print('>Radius: '+str(Rcloud)+'\n>Mcloud: '+str(Mcloud)+'\n>Metallicity: '+str(Metallicity)+'\n>RadField: '+str(RadField))
         
         t1 = datetime.now()
-
-        n_zones = 16
-        #n_zones_2 = 32
 
         try:
             out = submm_luminosity([Mcloud,Rcloud,Metallicity,RadField,redshift,DMR],NZONES=n_zones)
@@ -309,3 +317,4 @@ def creating_table(cloud_list, df_basic, output_dir):
 
     df.to_csv(f'{output_dir}/lim_df.csv', index = False, mode='a', header=False)
 
+    return df
