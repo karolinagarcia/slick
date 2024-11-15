@@ -91,7 +91,7 @@ def compute_temp_dens(Mcloud,Rcloud,Tg,Td,NZONES):
     return gas_temp,dust_temp,n_dens,col_dens
 
 def submm_luminosity(INPUT, NZONES=25, ProfileType = 'Powerlaw',noClump = False):
-    Mcloud,Rcloud,Metallicity,RadField,redshift,DMR = INPUT[0], INPUT[1], INPUT[2], INPUT[3], INPUT[4], INPUT[5]
+    Mcloud,Rcloud,Metallicity,RadField,redshift,DMR,CR = INPUT[0], INPUT[1], INPUT[2], INPUT[3], INPUT[4], INPUT[5], INPUT[6]
     Mcloud *= u.Msun
     Rcloud *= u.pc
 
@@ -126,8 +126,8 @@ def submm_luminosity(INPUT, NZONES=25, ProfileType = 'Powerlaw',noClump = False)
     gmc.Td = 10.
     gmc.Tg = 10.
     gmc.rad.TradDust = 10.
-    gmc.ionRate = 1.e-17*RadField
-    gmc.rad.ionRate = 1.e-17*RadField
+    gmc.ionRate = 1.e-17*CR
+    gmc.rad.ionRate = 1.e-17*CR    #fixed! using unattenuated SFR surface density now for scaling the CRs
     gmc.chi = RadField
     gmc.rad.chi = RadField
 
@@ -281,6 +281,7 @@ def creating_table(cloud_list, df_basic, output_dir, n_zones):
         Metallicity = float(df_basic['c_Metallicity'][df_basic['c_Index']==c])
         Pressure = float(df_basic['c_Pressure'][df_basic['c_Index']==c])
         RadField = float(df_basic['c_RadField'][df_basic['c_Index']==c])
+        CR = float(df_basic['c_CR'][df_basic['c_Index']==c])
         redshift = float(df_basic['g_Redshift'][df_basic['c_Index']==c])
         DMR = float(df_basic['c_DMR'][df_basic['c_Index']==c])
 
@@ -295,7 +296,7 @@ def creating_table(cloud_list, df_basic, output_dir, n_zones):
         t1 = datetime.now()
 
         try:
-            out = submm_luminosity([Mcloud,Rcloud,Metallicity,RadField,redshift,DMR],NZONES=n_zones)
+            out = submm_luminosity([Mcloud,Rcloud,Metallicity,RadField,redshift,DMR,CR],NZONES=n_zones)
             #out2 = submm_luminosity([Mcloud,Rcloud,Metallicity,RadField,redshift,DMR],NZONES=n_zones_2)
             t2 = datetime.now()
             time = (t2-t1).total_seconds()

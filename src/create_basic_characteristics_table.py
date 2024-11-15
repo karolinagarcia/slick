@@ -32,19 +32,19 @@ def create_basic_table(config):
     '''
     if config['agn'] == 'True':
         df = pd.DataFrame({'g_Index':[], 'c_Index':[], 'c_Mass':[], 'c_Radius':[], 'c_nDensity':[],
-                       'c_Temperature':[], 'c_Pressure':[], 'c_Metallicity':[], 'c_SFR':[], 'c_RadField':[], 'c_DMR':[], 'g_SFR':[], 'g_Redshift':[],
+                       'c_Temperature':[], 'c_Pressure':[], 'c_Metallicity':[], 'c_SFR':[], 'c_RadField':[], 'c_CR':[] ,'c_DMR':[], 'g_SFR':[], 'g_Redshift':[],
                        'g_Mass_Gas':[], 'g_Mass_H2':[], 'g_Radius':[], 'g_Metallicity':[],
                        'BHmass_gal':[], 'BHfedd_gal':[], 'L_edd':[], 'BH_bol_lum':[],'bol_corr_UV':[],
                        'BH_UV_lum':[],'BH_bol_lum_2':[],'BH_UV_lum_2':[],'BH_UV_flux':[]})
 
     else:
         df = pd.DataFrame({'g_Index':[], 'c_Index':[], 'c_Mass':[], 'c_Radius':[], 'c_nDensity':[],
-                       'c_Temperature':[], 'c_Pressure':[], 'c_Metallicity':[], 'c_SFR':[], 'c_RadField':[], 'c_DMR':[], 'g_SFR':[], 'g_Redshift':[],
+                       'c_Temperature':[], 'c_Pressure':[], 'c_Metallicity':[], 'c_SFR':[], 'c_RadField':[], 'c_CR':[] ,'c_DMR':[], 'g_SFR':[], 'g_Redshift':[],
                        'g_Mass_Gas':[], 'g_Mass_H2':[], 'g_Radius':[], 'g_Metallicity':[]})
 
     '''
     df = pd.DataFrame({'g_Index':[], 'c_Index':[], 'c_Mass':[], 'c_Radius':[], 'c_nDensity':[],
-                       'c_Temperature':[], 'c_Pressure':[], 'c_Metallicity':[], 'c_SFR':[], 'c_RadField':[], 'c_DMR':[], 'g_SFR':[], 'g_Redshift':[],
+                       'c_Temperature':[], 'c_Pressure':[], 'c_Metallicity':[], 'c_SFR':[], 'c_RadField':[], 'c_CR':[] 'c_DMR':[], 'g_SFR':[], 'g_Redshift':[],
                        'g_Mass_Gas':[], 'g_Mass_H2':[], 'g_Radius':[], 'g_Metallicity':[]})
     
     for cloud in tqdm(clouds_in_each_galaxy):
@@ -114,6 +114,7 @@ def create_basic_table(config):
 
         sfr_gas = yt_data["PartType0","StarFormationRate"][clouds_in_this_galaxy].in_units("Msun/yr")
 
+        CR_list = []
         RadField_list = []
         UV_flux_list = []
         Metallicity_val = cloud[5]
@@ -141,6 +142,7 @@ def create_basic_table(config):
                 solar_optical_depth = K_abs * solar_gas_surface_density.in_units("g/cm**2")/1.653e2    #gas to dust ratio used by the Draine table used here 
                 solar_beta = (1-np.exp(-solar_optical_depth.value))/(solar_optical_depth.value)
             
+                CR_val = (sfr_surface_density/solar_sfr_surface_density)    #using the unattenuated SFR surface density for scaling the CRs
                 RadField_val = (sfr_surface_density/solar_sfr_surface_density)*(beta_UV/solar_beta)
 
             except:
@@ -163,6 +165,7 @@ def create_basic_table(config):
                 RadField_val = RadField_val + BH_UV_flux
             '''
 
+            CR_list.append(CR_val)
             RadField_list.append(RadField_val)
             UV_flux_list.append(BH_UV_flux)
 
@@ -179,7 +182,7 @@ def create_basic_table(config):
             df_aux = pd.DataFrame({'g_Index':gal_index, 'c_Index':clouds_in_this_galaxy, 'c_Mass':Mcloud,
                                 'c_Radius':Rcloud, 'c_nDensity':n_density, 'c_Temperature':temp,
                                 'c_Pressure':P, 'c_Metallicity':Metallicity, 'c_SFR':sfr_gas,
-                                'c_RadField':RadField_list, 'c_DMR':DMR_list, 'g_SFR':sfr_gal,
+                                'c_RadField':RadField_list, 'c_CR':CR_list ,'c_DMR':DMR_list, 'g_SFR':sfr_gal,
                                 'g_Redshift':redshift, 'g_Mass_Gas':Mgas_gal, 'g_Mass_H2':MH2_gal,
                                 'g_Radius':R_gal, 'g_Metallicity':Metal_gal, 'BHmass_gal':BHmass_gal,
                                 'BHfedd_gal':BHfedd_gal, 'L_edd':L_edd, 'BH_bol_lum':BH_bol_lum,
@@ -189,14 +192,14 @@ def create_basic_table(config):
             df_aux = pd.DataFrame({'g_Index':gal_index, 'c_Index':clouds_in_this_galaxy, 'c_Mass':Mcloud,
                                 'c_Radius':Rcloud, 'c_nDensity':n_density, 'c_Temperature':temp,
                                 'c_Pressure':P, 'c_Metallicity':Metallicity, 'c_SFR':sfr_gas,
-                                'c_RadField':RadField_list, 'c_DMR':DMR_list, 'g_SFR':sfr_gal,
+                                'c_RadField':RadField_list, 'c_CR':CR_list ,'c_DMR':DMR_list, 'g_SFR':sfr_gal,
                                 'g_Redshift':redshift, 'g_Mass_Gas':Mgas_gal, 'g_Mass_H2':MH2_gal,
                                 'g_Radius':R_gal, 'g_Metallicity':Metal_gal})
         '''
         df_aux = pd.DataFrame({'g_Index':gal_index, 'c_Index':clouds_in_this_galaxy, 'c_Mass':Mcloud,
                                 'c_Radius':Rcloud, 'c_nDensity':n_density, 'c_Temperature':temp,
                                 'c_Pressure':P, 'c_Metallicity':Metallicity, 'c_SFR':sfr_gas,
-                                'c_RadField':RadField_list, 'c_DMR':DMR_list, 'g_SFR':sfr_gal,
+                                'c_RadField':RadField_list, 'c_CR':CR_list, 'c_DMR':DMR_list, 'g_SFR':sfr_gal,
                                 'g_Redshift':redshift, 'g_Mass_Gas':Mgas_gal, 'g_Mass_H2':MH2_gal,
                                 'g_Radius':R_gal, 'g_Metallicity':Metal_gal})       
 
