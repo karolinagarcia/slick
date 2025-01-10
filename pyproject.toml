@@ -1,0 +1,22 @@
+[project]
+name = "slick"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Karolina Garcia" },
+    { name = "Desika Narayanan" },
+    { name = "Gergö Popping" },
+    { name = "Anirudh Ravishankar" },
+    { name = "Sagan Sutherland" },
+    { name = "Melanie Kaasinen" },
+]
+requires-python = ">=3.8"
+dependencies = []
+
+[project.scripts]
+slick = "slick:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
