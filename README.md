@@ -82,7 +82,6 @@ Install CAESAR:
 
 If all has gone well, you should be able to run ``slick -h`` and get a help message.
 
-
 ## how to use
 
 Make sure you have the appropriate modules loaded and are in your slick conda environment:
