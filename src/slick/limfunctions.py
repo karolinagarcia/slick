@@ -6,7 +6,7 @@ import pandas as pd
 
 import sys
 
-sys.path.insert(1, "/home/karolina.garcia/despotic")
+# sys.path.insert(1, "/home/karolina.garcia/despotic")
 import despotic
 from despotic import zonedcloud
 from despotic.chemistry import GOW
