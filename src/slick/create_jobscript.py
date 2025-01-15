@@ -25,5 +25,5 @@ def create_jobscript(param_filename, max_lines, max_cores, param_file, SBATCH_ar
             for arg_name, arg_val in full_SBATCH_args.items()
         )
         f.write(
-            f"python {pathlib.Path(__file__).parent.resolve()}/slick_run.py --parameters {param_file} --cloudinfofile {param_filename} --cloudinfoline $SLURM_ARRAY_TASK_ID\n"
+            f"slick run --parameters {param_file} --cloudinfofile {param_filename} --cloudinfoline $SLURM_ARRAY_TASK_ID\n"
         )

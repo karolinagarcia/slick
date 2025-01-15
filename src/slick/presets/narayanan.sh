@@ -6,4 +6,4 @@
 #SBATCH --mem-per-cpu=12gb
 #SBATCH --time=1:00:00
 
-slick_frontend.sh parameters.ini
+slick init parameters.ini

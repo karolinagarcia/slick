@@ -105,7 +105,3 @@ def init(config_file):
             )
         except:
             pass
-
-
-if __name__ == "__main__":
-    main()
