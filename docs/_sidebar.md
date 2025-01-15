@@ -2,6 +2,8 @@
 
 - - [🧰   how it works](pages/howitworks.md)
 
+- - [⚙️   installing](pages/installing.md)
+
 - - [💻   how to use](pages/howtouse.md)
 
 
