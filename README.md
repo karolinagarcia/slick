@@ -64,7 +64,7 @@ It may seem weird to do this before the dependencies, but doing so in this order
 ```
 
 Install DESPOTIC.
-Doing so requires a patch to the makefile which allows the compilers to know where gsl is located on hipergator::
+Doing so requires a patch to the makefile which allows the compilers to know where gsl is located on HiPerGator:
 ```
   cd despotic
   git checkout 182cd46d
