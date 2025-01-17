@@ -17,10 +17,6 @@ def init(config_file):
         mkdir(config["output_dir"])
     except:
         pass
-    try:
-        mkdir(config["basictable_dir"])
-    except:
-        pass
     """
     except FileExistsError:
         if config["overwrite"]:
@@ -33,6 +29,12 @@ def init(config_file):
     """
     # Creates table with basic characteristics for all the clouds
     if not config["skip_basictable"]:
+        try:
+            mkdir(config["basictable_dir"])
+        except FileExistsError:
+            pass
+        except Exception as e:
+            print(f"Could not make basic_table directory: {e}")
         create_basic_table(config)
 
     if not config["skip_lumcalc"]:
