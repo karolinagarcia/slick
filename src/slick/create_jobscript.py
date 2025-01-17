@@ -8,10 +8,6 @@ def create_jobscript(param_filename, max_lines, max_cores, param_file, SBATCH_ar
         "cpus-per-task": "1",
         "mem-per-cpu": "8gb",
         "time": "48:00:00",
-        "account": "astronomy-dept",
-        "qos": "astronomy-dept-b",  # ,
-        # "qos": "narayanan-b"#,
-        # "output": "/dev/null"
     }
     # NOTE: this makes no guarantees about the order in which SBATCH args are laid out
     full_SBATCH_args = {**default_SBATCH_args, **SBATCH_args}

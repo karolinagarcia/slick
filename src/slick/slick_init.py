@@ -112,4 +112,4 @@ def init(config_file):
             pass
 
     if not config["skip_run"]:
-        subprocess.Popen(["sbatch", "slick_run_jobscript.sh"])
+        subprocess.run(["sbatch", "slick_run_jobscript.sh"])
