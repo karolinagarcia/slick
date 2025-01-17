@@ -1,4 +1,5 @@
 from sys import argv
+import subprocess
 from os import mkdir
 import pandas as pd
 from shutil import rmtree
@@ -109,3 +110,6 @@ def init(config_file):
             )
         except:
             pass
+
+    if not config["skip_run"]:
+        subprocess.Popen(["sbatch", "slick_run_jobscript.sh"])

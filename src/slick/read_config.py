@@ -35,6 +35,7 @@ def parse_parameters(config_file):
     config_result["skip_basictable"] = config.getboolean(
         "run", "skip_basictable", fallback=False
     )
+    config_result["skip_run"] = config.getboolean("run", "skip_run", fallback=False)
     config_result["overwrite"] = config.getboolean("run", "overwrite", fallback=False)
     # config_result["skip_ml"] = config.getboolean("run", "skip_ml", fallback=False)
     return config_result
