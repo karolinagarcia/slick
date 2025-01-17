@@ -16,6 +16,10 @@ def init(config_file):
         mkdir(config["output_dir"])
     except:
         pass
+    try:
+        mkdir(config["basictable_dir"])
+    except:
+        pass
     """
     except FileExistsError:
         if config["overwrite"]:
