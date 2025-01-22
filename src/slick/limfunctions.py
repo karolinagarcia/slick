@@ -4,6 +4,7 @@ import numpy as np
 from datetime import datetime
 import pandas as pd
 
+import fcntl
 import sys
 from pathlib import Path
 
@@ -638,6 +639,9 @@ def creating_table(cloud_list, df_basic, output_dir, n_zones):
         new_dtypes = {"Galaxy_ID": int, "Cloud_ID": int}
         df = df.astype(new_dtypes)
 
-    df.to_csv(f"{output_dir}/lim_df.csv", index=False, mode="a", header=False)
+    with open(f"{output_dir}/lim_df.csv", "a") as f:
+        fcntl.flock(f, fcntl.LOCK_EX)
+        df.to_csv(f, index=False, header=False)
+        fcntl.flock(f, fcntl.LOCK_UN)
 
     return df
