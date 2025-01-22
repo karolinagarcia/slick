@@ -27,7 +27,7 @@ def run(cloud_info_file: str, cloudinfoline: int, parameters: str):
     set1 = set(df_basic["c_Index"])
     set2 = set(df_lim["Cloud_ID"].unique())
     unique_to_list1 = set1 - set2
-    if unique_to_list1 > 0:
+    if len(unique_to_list1) > 0:
         n_clouds_per_core = config["n_clouds_per_core"] / 10
         param_filename, max_lines = create_cloudspercore_list(config, n_clouds_per_core)
         create_jobscript(

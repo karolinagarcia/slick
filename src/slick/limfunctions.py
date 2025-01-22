@@ -5,6 +5,7 @@ from datetime import datetime
 import pandas as pd
 
 import sys
+from pathlib import Path
 
 # sys.path.insert(1, "/home/karolina.garcia/despotic")
 import despotic
@@ -461,7 +462,7 @@ def creating_table(cloud_list, df_basic, output_dir, n_zones):
     )
 
     UV_df = pd.read_csv(
-        "data/UV_background.csv"
+        Path(__file__).parent.parent.parent / "data/UV_background.csv"
     )  # UV_background is a simulated UV background radiation field made by Diemer et al. 2018 & Faucher-Giguere et al. 2009
 
     for c in cloud_list:
