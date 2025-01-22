@@ -1,9 +1,5 @@
 import argparse
 
-from .slick_init import init
-from .slick_run import run
-from .slick_new import new
-
 
 def main() -> None:
     parser = argparse.ArgumentParser(
@@ -25,8 +21,14 @@ def main() -> None:
 
     args = parser.parse_args()
     if args.command == "init":
+        from .slick_init import init
+
         init(args.config_file)
     elif args.command == "run":
+        from .slick_run import run
+
         run(args.cloudinfofile, args.cloudinfoline, args.parameters)
     elif args.command == "new":
+        from .slick_new import new
+
         new(args.preset)
