@@ -9,13 +9,13 @@ def parse_parameters(config_file):
     config_result["ytfilename"] = config["snap"]["ytfilename"]
     config_result["caesarfilename"] = config["snap"]["caesarfilename"]
     config_result["mode"] = config["sample"]["mode"]
-    config_result["max_cores"] = config["run"]["max_cores"]
-    config_result["n_clouds_per_core"] = config["run"]["n_clouds_per_core"]
-    config_result["n_zones"] = config["run"]["n_zones"]
+    config_result["max_cores"] = int(config["run"]["max_cores"])
+    config_result["n_clouds_per_core"] = int(config["run"]["n_clouds_per_core"])
+    config_result["n_zones"] = int(config["run"]["n_zones"])
     if config_result["mode"] == "randomize":
-        config_result["n_galaxies_sample"] = config["sample"]["n_galaxies_sample"]
-        config_result["min_mass"] = config["sample"]["min_mass"]
-        config_result["max_mass"] = config["sample"]["max_mass"]
+        config_result["n_galaxies_sample"] = int(config["sample"]["n_galaxies_sample"])
+        config_result["min_mass"] = eval(config["sample"]["min_mass"])
+        config_result["max_mass"] = eval(config["sample"]["max_mass"])
     elif config_result["mode"] == "single":
         config_result["gal_ids"] = config["sample"]["gal_ids"]
         config_result["agn"] = config["sample"]["agn"]

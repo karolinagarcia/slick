@@ -18,8 +18,8 @@ def create_cloudspercore_list(config, n_clouds_per_core):
             (gal.GroupID, gal.glist)
             for gal in obj.galaxies
             if (
-                gal.masses["total"] > eval(config["min_mass"])
-                and gal.masses["total"] <= eval(config["max_mass"])
+                gal.masses["total"] > config["min_mass"]
+                and gal.masses["total"] <= config["max_mass"]
             )
         ]
         galaxies_list = random.sample(galaxies_list, int(config["n_galaxies_sample"]))
