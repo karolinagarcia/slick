@@ -1,7 +1,7 @@
 import pathlib
 
 
-def create_jobscript(param_filename, max_lines, max_cores, param_file, SBATCH_args={}):
+def create_jobscript(param_filename, max_lines, max_cores, param_file, SBATCH_args={}, module={}):
     default_SBATCH_args = {
         "nodes": "1",
         "tasks-per-node": "1",
@@ -20,6 +20,12 @@ def create_jobscript(param_filename, max_lines, max_cores, param_file, SBATCH_ar
             f"#SBATCH --{arg_name}={arg_val}\n"
             for arg_name, arg_val in full_SBATCH_args.items()
         )
+        if len(module) > 0:
+            f.write("module purge\n")
+            f.writelines(
+                f"module load {name}/{version}\n"
+                for name, version in module.items()
+            )
         f.write(
             f"slick run --parameters {param_file} --cloudinfofile {param_filename} --cloudinfoline $SLURM_ARRAY_TASK_ID\n"
         )

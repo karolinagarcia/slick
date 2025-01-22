@@ -23,6 +23,10 @@ def parse_parameters(config_file):
         config_result["sbatch"] = {k: v for k, v in config.items("sbatch")}
     except NoSectionError:
         config_result["sbatch"] = {}
+    try:
+        config_result["module"] = {k: v for k, v in config.items("module")}
+    except NoSectionError:
+        config_result["sbatch"] = {}
     config_result["output_dir"] = config.get(
         "run", "output_dir", fallback="Output_Files"
     )

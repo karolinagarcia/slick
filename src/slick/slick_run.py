@@ -36,6 +36,7 @@ def run(cloud_info_file: str, cloudinfoline: int, parameters: str):
             int(config["max_cores"]),
             parameters,
             config["sbatch"],
+            config["module"],
         )
         with open(cloud_info_file, "r") as f:
             [*cloud_list] = [

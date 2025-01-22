@@ -49,6 +49,7 @@ def init(config_file):
             int(config["max_cores"]),
             config_file,
             config["sbatch"],
+            config["module"],
         )
 
         # Creates the lim file with the header
