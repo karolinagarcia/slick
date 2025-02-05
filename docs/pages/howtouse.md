@@ -1,15 +1,18 @@
 # how to use
 
-`setup.sh` marks the two frontend scripts as executable and adds the bin directory to the path.
-This only needs to happen once ever.
-```bash
-bash setup.sh
-source $HOME/.bashrc
+Make sure you have the appropriate modules loaded and are in your slick conda environment:
+```
+  module load gcc/12.2.0 gsl/2.7
+  conda activate slick
 ```
 
-To create a template slick project, run `slick_new.sh`. This creates [parameters.ini](#parameters-file) and `run.sh`.
-`run.sh` calls slick_frontend.sh. It assumes slick_frontend.sh is on the path, so this will need to be changed if you haven't run `setup.sh` previously.
-Running `sbatch run.sh` will enqueue the job for the slick_init step and the slick_run step (unless the skip_run option is set).
+To initialize a slick run, use ``slick new``.
+All the init step does is copy a ``parameters.ini`` and ``job.sh`` file into your current directory.
+Presets are found in the ``slick/src/slick/presets/`` directory.
+Currently only the default "narayanan" preset is shipped, but more can be made simply by adding "{name}.ini" and "{name}.sh" to the preset directory.
+Any users not on HiPerGator are welcome to submit a PR adding their own presets.
+``sbatch job.sh`` will queue the slick initialization step.
+If the skip_run option is not set in the parameter file, the initialization step will automatically queue the run step of slick.
 
 <br>
 
