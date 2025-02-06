@@ -14,14 +14,14 @@ def init(config_file):
     config = parse_parameters(config_file)
 
     try:
-        mkdir(config["output_dir"])
+        mkdir("../" + config["output_dir"])
     except:
         pass
     """
     except FileExistsError:
         if config["overwrite"]:
             rmtree(config["output_dir"])
-            mkdir(config["output_dir"])
+            mkdir("../" + config["output_dir"])
         else:
             print("Output directory already present")
             print("Either specify a new output directory or set the overwrite option.")
@@ -30,7 +30,7 @@ def init(config_file):
     # Creates table with basic characteristics for all the clouds
     if not config["skip_basictable"]:
         try:
-            mkdir(config["basictable_dir"])
+            mkdir("../" + config["basictable_dir"])
         except FileExistsError:
             pass
         except Exception as e:
@@ -109,7 +109,7 @@ def init(config_file):
                 }
             )
             df.to_csv(
-                f"{config['output_dir']}/lim_df.csv", index=False, overwrite=False
+                f"../{config['output_dir']}/lim_df.csv", index=False, overwrite=False
             )
         except:
             pass
