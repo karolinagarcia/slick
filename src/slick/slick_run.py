@@ -6,6 +6,7 @@ from .limfunctions import creating_table
 from .read_config import parse_parameters
 from .create_cloudspercore_list import create_cloudspercore_list
 from .create_jobscript import create_jobscript
+from .create_final_galaxies_table import create_gal_table
 
 
 def run(cloud_info_file: str, cloudinfoline: int, parameters: str):
@@ -20,11 +21,11 @@ def run(cloud_info_file: str, cloudinfoline: int, parameters: str):
     #df_basic = pd.read_csv(glob.glob(f"{config['basictable_dir']}/Basic*")[0])
 
     if config["sim"] == 'SIMBA':
-        df_basic = pd.read_csv(glob.glob(f"{config['basictable_dir']}/Basic_Characteristics_SIMBA*{config['output_name']}.csv")[0])
-    else: df_basic = pd.read_csv(f'{config["basictable_dir"]}/Basic_Characteristics_'+config["sim_code"]+'_snap'+config["snap_number"]+'_'+config["output_name"]+'.csv')
+        df_basic = pd.read_csv(glob.glob(f"{config["basictable_dir"]}/Basic_Characteristics_SIMBA*{config["output_name"]}.csv")[0])
+    else: df_basic = pd.read_csv(f"{config["basictable_dir"]}/Basic_Characteristics_{config["sim_code"]}_snap{config["snap_number"]}_{config["output_name"]}.csv")
 
     df_lim = creating_table(
-        cloud_list, df_basic, config["output_dir"], int(config["n_zones"])
+        cloud_list, df_basic, config["output_dir"], int(config["n_zones"], config)
     )
 
     # Running remaining clouds in case any core time was not enough
@@ -52,5 +53,8 @@ def run(cloud_info_file: str, cloudinfoline: int, parameters: str):
         creating_table(
             cloud_list, df_basic, config["output_dir"], int(config["n_zones"])
         )
+
+    # creating a galaxies table (combines the cloud luminosities of each galaxy)
+    create_gal_table(config)
 
     print("Slick run completed successfully")

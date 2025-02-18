@@ -406,7 +406,7 @@ def submm_luminosity(INPUT, NZONES=25, ProfileType="Powerlaw", noClump=False):
     )
 
 
-def creating_table(cloud_list, df_basic, output_dir, n_zones):
+def creating_table(cloud_list, df_basic, output_dir, n_zones, config):
     df = pd.DataFrame(
         {
             "Galaxy_ID": [],
@@ -465,7 +465,7 @@ def creating_table(cloud_list, df_basic, output_dir, n_zones):
     UV_df = pd.read_csv(
         Path(__file__).parent / "data/UV_background.csv"
     )  # UV_background is a simulated UV background radiation field made by Diemer et al. 2018 & Faucher-Giguere et al. 2009
-
+    
     for c in cloud_list:
         print("Calculating for cloud " + str(c))
 
@@ -639,7 +639,12 @@ def creating_table(cloud_list, df_basic, output_dir, n_zones):
         new_dtypes = {"Galaxy_ID": int, "Cloud_ID": int}
         df = df.astype(new_dtypes)
 
-    with open(f"{output_dir}/lim_df.csv", "a") as f:
+    if config["sim"] == 'SIMBA':
+        lum_file_name = f"{config["output_dir"]}/Luminosity_Clouds_SIMBA{config["boxsize"]}_{config["output_name"]}.csv"
+    else:
+        lum_file_name = f"{config["output_dir"]}/Luminosity_Clouds_{config["sim_code"]}_snap{config["snap_number"]}_{config["output_name"]}.csv"
+
+    with open(lum_file_name, "a") as f:
         fcntl.flock(f, fcntl.LOCK_EX)
         df.to_csv(f, index=False, header=False)
         fcntl.flock(f, fcntl.LOCK_UN)
