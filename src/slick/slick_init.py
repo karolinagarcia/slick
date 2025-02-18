@@ -5,6 +5,7 @@ import pandas as pd
 from shutil import rmtree
 
 from .create_basic_characteristics_table import create_basic_table
+from .create_basic_characteristics_table import create_basic_table_tng_camels
 from .create_cloudspercore_list import create_cloudspercore_list
 from .create_jobscript import create_jobscript
 from .read_config import parse_parameters
@@ -14,28 +15,21 @@ def init(config_file):
     config = parse_parameters(config_file)
 
     try:
-        mkdir("../" + config["output_dir"])
+        mkdir("./" + config["output_dir"])
     except:
         pass
-    """
-    except FileExistsError:
-        if config["overwrite"]:
-            rmtree(config["output_dir"])
-            mkdir("../" + config["output_dir"])
-        else:
-            print("Output directory already present")
-            print("Either specify a new output directory or set the overwrite option.")
-            exit(1)
-    """
+
     # Creates table with basic characteristics for all the clouds
     if not config["skip_basictable"]:
         try:
-            mkdir("../" + config["basictable_dir"])
+            mkdir("./" + config["basictable_dir"])
         except FileExistsError:
             pass
         except Exception as e:
             print(f"Could not make basic_table directory: {e}")
-        create_basic_table(config)
+        if config["sim"] == 'SIMBA':
+            create_basic_table(config)
+        else: create_basic_table_tng_camels(config)
 
     if not config["skip_lumcalc"]:
         # Creates table with basic characteristics for all the clouds (if mode='total'), or for a sample of them (mode = 'randomize')
@@ -109,7 +103,7 @@ def init(config_file):
                 }
             )
             df.to_csv(
-                f"../{config['output_dir']}/lim_df.csv", index=False, overwrite=False
+                f"./{config['output_dir']}/lim_df.csv", index=False, overwrite=False
             )
         except:
             pass

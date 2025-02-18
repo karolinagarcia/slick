@@ -17,7 +17,11 @@ def run(cloud_info_file: str, cloudinfoline: int, parameters: str):
 
     config = parse_parameters(parameters)
 
-    df_basic = pd.read_csv(glob.glob(f"{config['basictable_dir']}/Basic*")[0])
+    #df_basic = pd.read_csv(glob.glob(f"{config['basictable_dir']}/Basic*")[0])
+
+    if config["sim"] == 'SIMBA':
+        df_basic = pd.read_csv(glob.glob(f"{config['basictable_dir']}/Basic_Characteristics_SIMBA*{config['output_name']}.csv")[0])
+    else: df_basic = pd.read_csv(f'{config["basictable_dir"]}/Basic_Characteristics_'+config["sim_code"]+'_snap'+config["snap_number"]+'_'+config["output_name"]+'.csv')
 
     df_lim = creating_table(
         cloud_list, df_basic, config["output_dir"], int(config["n_zones"])
